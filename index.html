@@ -430,23 +430,75 @@ footer{background:#050810;border-top:1px solid var(--border);padding:32px 60px;d
 <section class="videos-section" id="videos">
   <div class="section-head">
     <div><div class="section-label">Watch</div><div class="section-title">Messi Clips</div></div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button id="muteBtn" onclick="toggleMute()" style="background:rgba(240,192,64,0.12);border:1px solid rgba(240,192,64,0.3);color:var(--gold);padding:7px 16px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:.5px;transition:all .2s">🔇 Unmute</button>
+      <button onclick="prevClip()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:7px 14px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s">← Prev</button>
+      <button onclick="nextClip()" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:7px 14px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s">Next →</button>
+    </div>
   </div>
+
+  <!-- Auto-play status bar -->
+  <div style="background:rgba(240,192,64,0.06);border:1px solid rgba(240,192,64,0.15);border-radius:8px;padding:10px 16px;margin-bottom:18px;display:flex;align-items:center;gap:10px;">
+    <span style="width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1.5s infinite;display:inline-block;flex-shrink:0"></span>
+    <span style="font-size:12px;color:var(--gold);font-weight:600">Auto-playing</span>
+    <span style="font-size:12px;color:var(--muted)">— clips switch automatically when finished &nbsp;·&nbsp; starts muted (browser policy) — press Unmute to hear</span>
+  </div>
+  <style>@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}</style>
+
   <div class="video-layout">
+    <!-- Main YouTube IFrame API Player -->
     <div class="video-player-wrap">
       <div class="video-player-frame">
-        <iframe id="mainPlayer" src="https://www.youtube.com/embed/nFg0N_JesWs?start=0&rel=0&modestbranding=1&color=white" title="Messi Highlights" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div id="ytPlayer"></div>
       </div>
       <div class="video-player-info">
-        <div class="vpi-title" id="vpiTitle">Lionel Messi — Career Highlights</div>
-        <div class="vpi-desc" id="vpiDesc">Full career highlights compilation across all clubs and Argentina.</div>
-        <div class="vpi-meta">
-          <span class="vpi-tag" id="vpiTag1">⚽ Goals</span>
-          <span class="vpi-tag" id="vpiTag2">🎯 Assists</span>
-          <span class="vpi-tag" id="vpiTag3">Full Video</span>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <div class="vpi-title" id="vpiTitle">Loading…</div>
+          <div id="clipCounter" style="font-size:11px;color:var(--muted);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;flex-shrink:0"></div>
+        </div>
+        <div class="vpi-desc" id="vpiDesc"></div>
+        <div class="vpi-meta" id="vpiMeta"></div>
+        <!-- Clip progress bar -->
+        <div style="height:2px;background:rgba(255,255,255,0.06);border-radius:1px;margin-top:12px;overflow:hidden">
+          <div id="clipProgress" style="height:100%;background:var(--gold);width:0%;transition:width .5s linear"></div>
         </div>
       </div>
     </div>
+
+    <!-- Clip queue sidebar -->
     <div class="clips-list" id="clipsList"></div>
+  </div>
+
+  <!-- Free footage section -->
+  <div style="margin-top:32px">
+    <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:14px">🎬 Free Licensed Footage (Wikimedia Commons · CC BY 3.0)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+        <video autoplay muted loop playsinline controls
+          style="width:100%;display:block;max-height:220px;background:#000"
+          onended="this.play()">
+          <source src="https://upload.wikimedia.org/wikipedia/commons/a/ae/FC_Barcelona_-_Chelsea_FC_-_Messi_misses_a_penalty.ogv" type="video/ogg">
+        </video>
+        <div style="padding:12px 14px">
+          <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px">Messi vs Chelsea — Penalty (2012)</div>
+          <div style="font-size:10.5px;color:var(--muted)">FC Barcelona vs Chelsea FC · Champions League · CC BY 3.0 Marc Cluet</div>
+        </div>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+        <video autoplay muted loop playsinline controls
+          style="width:100%;display:block;max-height:220px;background:#000"
+          onended="this.play()">
+          <source src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Flip_Book_-_Messi_Example.webm" type="video/webm">
+        </video>
+        <div style="padding:12px 14px">
+          <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:3px">Messi Flip Book Animation</div>
+          <div style="font-size:10.5px;color:var(--muted)">Creative Commons Animation · CC BY 3.0 harun uğur</div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -498,12 +550,14 @@ footer{background:#050810;border-top:1px solid var(--border);padding:32px 60px;d
   <div class="footer-note">Lionel Andrés Messi · Born June 24, 1987 · Rosario, Argentina · The Greatest of All Time</div>
 </footer>
 
+<!-- YouTube IFrame API -->
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
 /* ════ SLIDESHOW ════ */
 const slides = document.querySelectorAll('.slide');
 const dots   = document.querySelectorAll('.dot');
 const bar    = document.getElementById('progressBar');
-let current  = 0, timer = null;
+let current  = 0, slideTimer = null;
 const INTERVAL = 7000;
 
 function goSlide(idx) {
@@ -519,47 +573,120 @@ function resetProgress() {
   requestAnimationFrame(() => requestAnimationFrame(() => {
     bar.style.transition = `width ${INTERVAL}ms linear`; bar.style.width = '100%';
   }));
-  clearInterval(timer);
-  timer = setInterval(() => goSlide(current + 1), INTERVAL);
+  clearInterval(slideTimer);
+  slideTimer = setInterval(() => goSlide(current + 1), INTERVAL);
 }
 resetProgress();
 
-/* ════ CLIPS ════ */
+/* ════ YOUTUBE CLIPS ════ */
 const VID = 'nFg0N_JesWs';
 const CLIPS = [
-  { start:0,   title:'Full Career Highlights',        desc:'Complete goals, assists, dribbles across all clubs and Argentina.',  tags:['Full Video','All Clubs'],  thumb:`https://img.youtube.com/vi/${VID}/maxresdefault.jpg` },
-  { start:30,  title:'Barcelona Era — Camp Nou Magic', desc:'The greatest moments from 17 unforgettable seasons at FC Barcelona.', tags:['Barcelona','La Liga'],    thumb:`https://img.youtube.com/vi/${VID}/1.jpg` },
-  { start:120, title:'Dribbling & Skill Masterclass',  desc:'Messi leaving defenders helpless with godlike close control.',        tags:['Skills','Dribbles'],      thumb:`https://img.youtube.com/vi/${VID}/2.jpg` },
-  { start:240, title:'Free Kicks & Long Range Goals',  desc:'Curling free kicks, thunderbolts and set piece perfection.',          tags:['Free Kicks','Goals'],     thumb:`https://img.youtube.com/vi/${VID}/3.jpg` },
-  { start:360, title:'Champions League Moments',       desc:'Big European nights — goals and assists that defined CL campaigns.',  tags:['UCL','Europe'],           thumb:`https://img.youtube.com/vi/${VID}/maxresdefault.jpg` },
-  { start:480, title:'Argentina — International Goals',desc:"Goals for La Albiceleste from 2005 to the 2022 World Cup triumph.",  tags:['Argentina','World Cup'],  thumb:`https://img.youtube.com/vi/${VID}/1.jpg` },
-  { start:600, title:'World Cup 2022 — Qatar Glory',   desc:'Every goal and key moment from the tournament that completed the legend.', tags:['WC 2022','Qatar'],   thumb:`https://img.youtube.com/vi/${VID}/2.jpg` },
-  { start:720, title:'Inter Miami — MLS Highlights',   desc:"Messi's debut MLS season — Leagues Cup glory and beyond.",           tags:['Inter Miami','MLS'],      thumb:`https://img.youtube.com/vi/${VID}/3.jpg` },
+  { start:0,   end:90,  title:'Full Career Highlights',        desc:'Complete goals, assists, dribbles across all clubs and Argentina.',   tags:['Full Video','All Clubs'],  thumb:`https://img.youtube.com/vi/${VID}/maxresdefault.jpg` },
+  { start:90,  end:200, title:'Barcelona Era — Camp Nou Magic', desc:'The greatest moments from 17 unforgettable seasons at FC Barcelona.',  tags:['Barcelona','La Liga'],     thumb:`https://img.youtube.com/vi/${VID}/1.jpg` },
+  { start:200, end:320, title:'Dribbling & Skill Masterclass',  desc:'Messi leaving defenders helpless — the ultimate close control show.',  tags:['Skills','Dribbles'],       thumb:`https://img.youtube.com/vi/${VID}/2.jpg` },
+  { start:320, end:450, title:'Free Kicks & Long Range Goals',  desc:'Curling free kicks, thunderbolts and set piece perfection.',           tags:['Free Kicks','Goals'],      thumb:`https://img.youtube.com/vi/${VID}/3.jpg` },
+  { start:450, end:580, title:'Champions League Moments',       desc:'Big European nights — goals and assists that defined CL campaigns.',   tags:['UCL','Europe'],            thumb:`https://img.youtube.com/vi/${VID}/maxresdefault.jpg` },
+  { start:580, end:720, title:'Argentina — International Goals',desc:"Goals for La Albiceleste from 2005 to the 2022 World Cup triumph.",   tags:['Argentina','World Cup'],   thumb:`https://img.youtube.com/vi/${VID}/1.jpg` },
+  { start:720, end:870, title:'World Cup 2022 — Qatar Glory',   desc:'Every key moment from the tournament that completed the legend.',      tags:['WC 2022','Qatar'],         thumb:`https://img.youtube.com/vi/${VID}/2.jpg` },
+  { start:870, end:999, title:'Inter Miami — MLS Highlights',   desc:"Messi's debut MLS season — Leagues Cup glory and beyond.",            tags:['Inter Miami','MLS'],       thumb:`https://img.youtube.com/vi/${VID}/3.jpg` },
 ];
 
-const player    = document.getElementById('mainPlayer');
-const clipsList = document.getElementById('clipsList');
-const vpiTitle  = document.getElementById('vpiTitle');
-const vpiDesc   = document.getElementById('vpiDesc');
-const vpiTag1   = document.getElementById('vpiTag1');
-const vpiTag2   = document.getElementById('vpiTag2');
-const vpiTag3   = document.getElementById('vpiTag3');
+let ytPlayer = null;
+let activeClip = 0;
+let isMuted = true;
+let progressInterval = null;
 
 function fmtTime(s){ const m=Math.floor(s/60),sec=s%60; return `${m}:${sec.toString().padStart(2,'0')}`; }
 
-function loadClip(i) {
-  const c = CLIPS[i];
-  player.src = `https://www.youtube.com/embed/${VID}?start=${c.start}&autoplay=1&rel=0&modestbranding=1&color=white`;
-  vpiTitle.textContent = c.title;
-  vpiDesc.textContent  = c.desc;
-  vpiTag1.textContent  = c.tags[0];
-  vpiTag2.textContent  = c.tags[1] || '';
-  vpiTag3.textContent  = `▶ ${fmtTime(c.start)}`;
-  document.querySelectorAll('.clip').forEach((el,idx) => el.classList.toggle('active', idx === i));
-  document.querySelector('.videos-section').scrollIntoView({behavior:'smooth', block:'start'});
+/* Called by YouTube IFrame API when ready */
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player('ytPlayer', {
+    width: '100%',
+    height: '100%',
+    videoId: VID,
+    playerVars: {
+      autoplay: 1,
+      mute: 1,
+      start: CLIPS[0].start,
+      end: CLIPS[0].end,
+      rel: 0,
+      modestbranding: 1,
+      controls: 1,
+      color: 'white',
+      playsinline: 1,
+    },
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange,
+    }
+  });
 }
 
-clipsList.innerHTML = CLIPS.map((c, i) => `
+function onPlayerReady(e) {
+  e.target.playVideo();
+  updateClipUI(0);
+  startProgressTracking();
+}
+
+function onPlayerStateChange(e) {
+  if (e.data === YT.PlayerState.ENDED) {
+    nextClip();
+  }
+  if (e.data === YT.PlayerState.PLAYING) {
+    startProgressTracking();
+  }
+}
+
+function startProgressTracking() {
+  clearInterval(progressInterval);
+  progressInterval = setInterval(() => {
+    if (!ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
+    const c = CLIPS[activeClip];
+    const current = ytPlayer.getCurrentTime();
+    const elapsed = current - c.start;
+    const duration = c.end - c.start;
+    const pct = Math.min(100, (elapsed / duration) * 100);
+    document.getElementById('clipProgress').style.width = pct + '%';
+    /* auto-advance when we hit the end time */
+    if (current >= c.end - 0.5) nextClip();
+  }, 500);
+}
+
+function updateClipUI(i) {
+  const c = CLIPS[i];
+  activeClip = i;
+  document.getElementById('vpiTitle').textContent = c.title;
+  document.getElementById('vpiDesc').textContent  = c.desc;
+  document.getElementById('clipCounter').textContent = `${i+1} / ${CLIPS.length}`;
+  document.getElementById('vpiMeta').innerHTML = c.tags.map(t =>
+    `<span class="vpi-tag">${t}</span>`
+  ).join('') + `<span class="vpi-tag">▶ ${fmtTime(c.start)}</span>`;
+  document.getElementById('clipProgress').style.width = '0%';
+  document.querySelectorAll('.clip').forEach((el,idx) => el.classList.toggle('active', idx === i));
+  /* scroll clip into view in sidebar */
+  const activeEl = document.querySelector('.clip.active');
+  if (activeEl) activeEl.scrollIntoView({block:'nearest', behavior:'smooth'});
+}
+
+function loadClip(i) {
+  if (!ytPlayer) return;
+  updateClipUI(i);
+  ytPlayer.loadVideoById({ videoId: VID, startSeconds: CLIPS[i].start, endSeconds: CLIPS[i].end });
+  if (isMuted) ytPlayer.mute(); else ytPlayer.unMute();
+}
+
+function nextClip() { loadClip((activeClip + 1) % CLIPS.length); }
+function prevClip() { loadClip((activeClip - 1 + CLIPS.length) % CLIPS.length); }
+
+function toggleMute() {
+  if (!ytPlayer) return;
+  isMuted = !isMuted;
+  isMuted ? ytPlayer.mute() : ytPlayer.unMute();
+  document.getElementById('muteBtn').textContent = isMuted ? '🔇 Unmute' : '🔊 Mute';
+}
+
+/* Build clip sidebar */
+document.getElementById('clipsList').innerHTML = CLIPS.map((c, i) => `
   <div class="clip${i===0?' active':''}" onclick="loadClip(${i})">
     <div class="clip-thumb">
       <img src="${c.thumb}" alt="${c.title}" loading="lazy" style="width:100%;height:100%;object-fit:cover">
