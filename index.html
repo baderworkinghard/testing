@@ -212,6 +212,23 @@ footer{background:#050810;border-top:1px solid var(--border);padding:32px 60px;d
 .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:rgba(255,255,255,0.3);}
 .footer-logo span{color:var(--gold)}
 .footer-note{font-size:11px;color:var(--muted)}
+
+/* ══ ERA PANEL ══ */
+#eraPanel{
+  position:fixed;right:-260px;top:50%;transform:translateY(-50%);
+  width:214px;z-index:150;
+  background:rgba(8,11,20,0.97);border:1px solid rgba(255,255,255,0.1);border-radius:14px;
+  overflow:hidden;backdrop-filter:blur(24px);
+  transition:right .55s cubic-bezier(.22,.68,0,1.2),border-color .4s,box-shadow .4s;
+  box-shadow:0 24px 64px rgba(0,0,0,.85);pointer-events:none;
+}
+#eraPanel.visible{right:18px}
+.ep-photo{width:100%;height:158px;object-fit:cover;object-position:center 15%;display:block;transition:opacity .35s ease;}
+.ep-body{padding:12px 14px 14px}
+.ep-label{font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.ep-club{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1px;color:#fff;line-height:1;margin-bottom:3px;}
+.ep-years{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:1px;}
+.ep-bar{height:2px;border-radius:1px;margin-top:11px;width:100%;}
 </style>
 </head>
 <body>
@@ -351,7 +368,7 @@ footer{background:#050810;border-top:1px solid var(--border);padding:32px 60px;d
   </div>
   <div class="clubs-grid">
 
-    <div class="club-card" style="--club-grad:linear-gradient(135deg,rgba(0,77,152,0.7),rgba(165,0,68,0.7));--club-color:#74acdf">
+    <div class="club-card" data-club="barcelona" style="--club-grad:linear-gradient(135deg,rgba(0,77,152,0.7),rgba(165,0,68,0.7));--club-color:#74acdf">
       <div class="club-banner">
         <div class="club-banner-photo" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg/800px-Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg');filter:hue-rotate(200deg) saturate(1.3) brightness(0.8)"></div>
         <div class="club-banner-grad"></div>
@@ -369,7 +386,7 @@ footer{background:#050810;border-top:1px solid var(--border);padding:32px 60px;d
       </div>
     </div>
 
-    <div class="club-card" style="--club-grad:linear-gradient(135deg,rgba(0,26,110,0.7),rgba(200,16,46,0.7));--club-color:#c8102e">
+    <div class="club-card" data-club="psg" style="--club-grad:linear-gradient(135deg,rgba(0,26,110,0.7),rgba(200,16,46,0.7));--club-color:#c8102e">
       <div class="club-banner">
         <div class="club-banner-photo" style="background-image:url('https://img.youtube.com/vi/nFg0N_JesWs/maxresdefault.jpg');filter:hue-rotate(340deg) saturate(1.2) brightness(0.7)"></div>
         <div class="club-banner-grad"></div>
@@ -387,7 +404,7 @@ footer{background:#050810;border-top:1px solid var(--border);padding:32px 60px;d
       </div>
     </div>
 
-    <div class="club-card" style="--club-grad:linear-gradient(135deg,rgba(247,181,205,0.4),rgba(35,31,32,0.9));--club-color:#f7b5cd">
+    <div class="club-card" data-club="miami" style="--club-grad:linear-gradient(135deg,rgba(247,181,205,0.4),rgba(35,31,32,0.9));--club-color:#f7b5cd">
       <div class="club-banner">
         <div class="club-banner-photo" style="background-image:url('https://img.youtube.com/vi/nFg0N_JesWs/2.jpg');filter:saturate(0.7) brightness(0.7)"></div>
         <div class="club-banner-grad"></div>
@@ -405,7 +422,7 @@ footer{background:#050810;border-top:1px solid var(--border);padding:32px 60px;d
       </div>
     </div>
 
-    <div class="club-card" style="--club-grad:linear-gradient(135deg,rgba(116,172,223,0.5),rgba(255,255,255,0.1));--club-color:#74acdf">
+    <div class="club-card" data-club="argentina" style="--club-grad:linear-gradient(135deg,rgba(116,172,223,0.5),rgba(255,255,255,0.1));--club-color:#74acdf">
       <div class="club-banner">
         <div class="club-banner-photo" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Messi_vs_Nigeria_2018.jpg/800px-Messi_vs_Nigeria_2018.jpg');filter:saturate(1.1) brightness(0.7)"></div>
         <div class="club-banner-grad"></div>
@@ -522,13 +539,13 @@ footer{background:#050810;border-top:1px solid var(--border);padding:32px 60px;d
   <div class="section-head"><div><div class="section-label">Journey</div><div class="section-title">Career Timeline</div></div></div>
   <div class="timeline">
     <div class="tl-item" style="--dot-color:#c8920a"><div class="tl-dot"></div><div class="tl-year">1987</div><div class="tl-card"><div class="tl-event">Born in Rosario, Argentina</div><div class="tl-detail">Lionel Andrés Messi born June 24, 1987. Begins playing at Grandoli FC aged 4.</div><div class="tl-badges"><span class="tl-badge tl-badge-blue">🇦🇷 Rosario</span></div></div></div>
-    <div class="tl-item" style="--dot-color:#74acdf"><div class="tl-dot"></div><div class="tl-year">2001</div><div class="tl-card"><div class="tl-event">Joins FC Barcelona — La Masia</div><div class="tl-detail">Barcelona pays for Messi's growth hormone treatment. The famous napkin contract. Aged 13.</div><div class="tl-badges"><span class="tl-badge tl-badge-blue">La Masia</span><span class="tl-badge tl-badge-gold">Age 13</span></div></div></div>
-    <div class="tl-item" style="--dot-color:#74acdf"><div class="tl-dot"></div><div class="tl-year">2004</div><div class="tl-card"><div class="tl-event">First Team Debut for FC Barcelona</div><div class="tl-detail">Official debut October 16 vs Espanyol. Aged 17 years and 114 days — youngest debut for Barcelona at the time.</div><div class="tl-badges"><span class="tl-badge tl-badge-blue">Age 17</span><span class="tl-badge tl-badge-gold">Youngest Debut</span></div></div></div>
-    <div class="tl-item" style="--dot-color:#c8920a"><div class="tl-dot"></div><div class="tl-year">2009</div><div class="tl-card"><div class="tl-event">First Ballon d'Or + Treble with Barcelona</div><div class="tl-detail">La Liga, Copa del Rey and Champions League under Pep Guardiola. 38 goals. First Ballon d'Or at age 22.</div><div class="tl-badges"><span class="tl-badge tl-badge-gold">🏅 First Ballon d'Or</span><span class="tl-badge tl-badge-green">Treble</span></div></div></div>
-    <div class="tl-item" style="--dot-color:#c8920a"><div class="tl-dot"></div><div class="tl-year">2012</div><div class="tl-card"><div class="tl-event">91 Goals in a Calendar Year — World Record</div><div class="tl-detail">Breaks Gerd Müller's 40-year record. 91 goals in all competitions. Wins 4th consecutive Ballon d'Or.</div><div class="tl-badges"><span class="tl-badge tl-badge-gold">🌍 World Record</span><span class="tl-badge tl-badge-gold">91 Goals</span></div></div></div>
-    <div class="tl-item" style="--dot-color:#e05c5c"><div class="tl-dot"></div><div class="tl-year">2021</div><div class="tl-card"><div class="tl-event">Tearful Barcelona Farewell + Copa America Victory</div><div class="tl-detail">Leaves Barcelona in tears. Joins PSG. Wins Copa America with Argentina — his first major international trophy.</div><div class="tl-badges"><span class="tl-badge tl-badge-gold">🏆 Copa America</span><span class="tl-badge tl-badge-blue">PSG</span></div></div></div>
-    <div class="tl-item" style="--dot-color:#c8920a"><div class="tl-dot"></div><div class="tl-year">2022</div><div class="tl-card"><div class="tl-event">FIFA World Cup Champion — Qatar 2022</div><div class="tl-detail">Greatest World Cup final ever. Messi scores twice. Argentina win on penalties vs France. Golden Boot + Golden Ball.</div><div class="tl-badges"><span class="tl-badge tl-badge-gold">🌍 World Cup</span><span class="tl-badge tl-badge-gold">Golden Ball</span><span class="tl-badge tl-badge-gold">Golden Boot</span></div></div></div>
-    <div class="tl-item" style="--dot-color:#f7b5cd"><div class="tl-dot"></div><div class="tl-year">2023</div><div class="tl-card"><div class="tl-event">Inter Miami & 8th Ballon d'Or</div><div class="tl-detail">Joins Inter Miami. Wins Leagues Cup immediately. Wins record 8th Ballon d'Or. Transforms American soccer.</div><div class="tl-badges"><span class="tl-badge tl-badge-gold">🏅 8th Ballon d'Or</span><span class="tl-badge tl-badge-blue">Inter Miami</span></div></div></div>
+    <div class="tl-item" data-club="barcelona" style="--dot-color:#74acdf"><div class="tl-dot"></div><div class="tl-year">2001</div><div class="tl-card"><div class="tl-event">Joins FC Barcelona — La Masia</div><div class="tl-detail">Barcelona pays for Messi's growth hormone treatment. The famous napkin contract. Aged 13.</div><div class="tl-badges"><span class="tl-badge tl-badge-blue">La Masia</span><span class="tl-badge tl-badge-gold">Age 13</span></div></div></div>
+    <div class="tl-item" data-club="barcelona" style="--dot-color:#74acdf"><div class="tl-dot"></div><div class="tl-year">2004</div><div class="tl-card"><div class="tl-event">First Team Debut for FC Barcelona</div><div class="tl-detail">Official debut October 16 vs Espanyol. Aged 17 years and 114 days — youngest debut for Barcelona at the time.</div><div class="tl-badges"><span class="tl-badge tl-badge-blue">Age 17</span><span class="tl-badge tl-badge-gold">Youngest Debut</span></div></div></div>
+    <div class="tl-item" data-club="barcelona" style="--dot-color:#c8920a"><div class="tl-dot"></div><div class="tl-year">2009</div><div class="tl-card"><div class="tl-event">First Ballon d'Or + Treble with Barcelona</div><div class="tl-detail">La Liga, Copa del Rey and Champions League under Pep Guardiola. 38 goals. First Ballon d'Or at age 22.</div><div class="tl-badges"><span class="tl-badge tl-badge-gold">🏅 First Ballon d'Or</span><span class="tl-badge tl-badge-green">Treble</span></div></div></div>
+    <div class="tl-item" data-club="barcelona" style="--dot-color:#c8920a"><div class="tl-dot"></div><div class="tl-year">2012</div><div class="tl-card"><div class="tl-event">91 Goals in a Calendar Year — World Record</div><div class="tl-detail">Breaks Gerd Müller's 40-year record. 91 goals in all competitions. Wins 4th consecutive Ballon d'Or.</div><div class="tl-badges"><span class="tl-badge tl-badge-gold">🌍 World Record</span><span class="tl-badge tl-badge-gold">91 Goals</span></div></div></div>
+    <div class="tl-item" data-club="psg" style="--dot-color:#e05c5c"><div class="tl-dot"></div><div class="tl-year">2021</div><div class="tl-card"><div class="tl-event">Tearful Barcelona Farewell + Copa America Victory</div><div class="tl-detail">Leaves Barcelona in tears. Joins PSG. Wins Copa America with Argentina — his first major international trophy.</div><div class="tl-badges"><span class="tl-badge tl-badge-gold">🏆 Copa America</span><span class="tl-badge tl-badge-blue">PSG</span></div></div></div>
+    <div class="tl-item" data-club="argentina" style="--dot-color:#c8920a"><div class="tl-dot"></div><div class="tl-year">2022</div><div class="tl-card"><div class="tl-event">FIFA World Cup Champion — Qatar 2022</div><div class="tl-detail">Greatest World Cup final ever. Messi scores twice. Argentina win on penalties vs France. Golden Boot + Golden Ball.</div><div class="tl-badges"><span class="tl-badge tl-badge-gold">🌍 World Cup</span><span class="tl-badge tl-badge-gold">Golden Ball</span><span class="tl-badge tl-badge-gold">Golden Boot</span></div></div></div>
+    <div class="tl-item" data-club="miami" style="--dot-color:#f7b5cd"><div class="tl-dot"></div><div class="tl-year">2023</div><div class="tl-card"><div class="tl-event">Inter Miami & 8th Ballon d'Or</div><div class="tl-detail">Joins Inter Miami. Wins Leagues Cup immediately. Wins record 8th Ballon d'Or. Transforms American soccer.</div><div class="tl-badges"><span class="tl-badge tl-badge-gold">🏅 8th Ballon d'Or</span><span class="tl-badge tl-badge-blue">Inter Miami</span></div></div></div>
   </div>
 </section>
 
@@ -549,6 +566,17 @@ footer{background:#050810;border-top:1px solid var(--border);padding:32px 60px;d
   <div class="footer-logo">MESSI <span>UNIVERSE</span></div>
   <div class="footer-note">Lionel Andrés Messi · Born June 24, 1987 · Rosario, Argentina · The Greatest of All Time</div>
 </footer>
+
+<!-- ── ERA PANEL ── -->
+<div id="eraPanel">
+  <img class="ep-photo" id="epPhoto" src="" alt="Messi">
+  <div class="ep-body">
+    <div class="ep-label">Messi Era</div>
+    <div class="ep-club" id="epClub"></div>
+    <div class="ep-years" id="epYears"></div>
+    <div class="ep-bar" id="epBar"></div>
+  </div>
+</div>
 
 <!-- YouTube IFrame API -->
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -722,6 +750,77 @@ window.addEventListener('scroll', () => {
       document.querySelectorAll('.nav-links a').forEach(a => a.classList.toggle('active', a.getAttribute('href')==='#'+sec.id));
   });
 },{passive:true});
+
+/* ════ ERA PANEL ════ */
+const ERA_DATA = {
+  barcelona: {
+    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg/800px-Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg',
+    club:'FC Barcelona', years:'2004 – 2021',
+    bar:'linear-gradient(90deg,#004d98,#a50044)', border:'rgba(0,77,152,0.5)'
+  },
+  psg: {
+    photo:'https://img.youtube.com/vi/nFg0N_JesWs/maxresdefault.jpg',
+    club:'Paris Saint-Germain', years:'2021 – 2023',
+    bar:'linear-gradient(90deg,#001a6e,#c8102e)', border:'rgba(0,26,110,0.55)'
+  },
+  miami: {
+    photo:'https://img.youtube.com/vi/nFg0N_JesWs/2.jpg',
+    club:'Inter Miami CF', years:'2023 – Present',
+    bar:'linear-gradient(90deg,#f7b5cd,#231f20)', border:'rgba(247,181,205,0.5)'
+  },
+  argentina: {
+    photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Messi_vs_Nigeria_2018.jpg/800px-Messi_vs_Nigeria_2018.jpg',
+    club:'Argentina', years:'2005 – Present',
+    bar:'linear-gradient(90deg,#74acdf,#fff)', border:'rgba(116,172,223,0.5)'
+  }
+};
+
+let epActive = null, epHideTimer = null;
+const epVisible = new Set();
+
+function showEraPanel(key) {
+  clearTimeout(epHideTimer);
+  const d = ERA_DATA[key];
+  if (!d) return;
+  const panel = document.getElementById('eraPanel');
+  const photo = document.getElementById('epPhoto');
+  if (epActive !== key) {
+    const prev = epActive;
+    epActive = key;
+    photo.style.opacity = '0';
+    setTimeout(() => {
+      photo.src = d.photo;
+      document.getElementById('epClub').textContent = d.club;
+      document.getElementById('epYears').textContent = d.years;
+      document.getElementById('epBar').style.background = d.bar;
+      panel.style.borderColor = d.border;
+      panel.style.boxShadow = `0 24px 64px rgba(0,0,0,.85), 0 0 0 1px ${d.border}`;
+      photo.style.opacity = '1';
+    }, prev ? 220 : 0);
+  }
+  panel.classList.add('visible');
+}
+
+function hideEraPanel() {
+  epHideTimer = setTimeout(() => {
+    document.getElementById('eraPanel').classList.remove('visible');
+    epActive = null;
+  }, 900);
+}
+
+const eraObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      epVisible.add(e.target);
+      showEraPanel(e.target.dataset.club);
+    } else {
+      epVisible.delete(e.target);
+    }
+  });
+  if (epVisible.size === 0) hideEraPanel();
+}, { threshold: 0.25, rootMargin: '-60px 0px -60px 0px' });
+
+document.querySelectorAll('[data-club]').forEach(el => eraObs.observe(el));
 </script>
 </body>
 </html>
