@@ -3,940 +3,1003 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Messi Board</title>
+<title>Messi Universe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-:root {
-  --bg:       #f0ede6;
-  --surface:  #ffffff;
-  --text:     #0d0d0d;
-  --muted:    #888880;
-  --border:   #dddad2;
-  --border-hi:#b8b4aa;
-  --gold:     #c8920a;
-  --gold-bg:  #fdf3dc;
-  --blue:     #1a5fa8;
-  --green:    #1e7a4a;
-  --red:      #c0392b;
-  --orange:   #d45f0a;
-  --purple:   #6b46c1;
-  --dim:      #ccc9c0;
+:root{
+  --gold:#f0c040;
+  --blue:#74acdf;
+  --bg:#080b14;
+  --card:rgba(255,255,255,0.04);
+  --border:rgba(255,255,255,0.08);
+  --text:#e8eaf6;
+  --muted:#636888;
 }
+html,body{height:100%;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden}
 
-html { height: 100%; }
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:3px}
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Outfit', sans-serif;
-  min-height: 100vh;
-  overflow-x: auto;
+/* ══════════════════════════════════
+   NAV
+══════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;gap:8px;
+  padding:0 36px;height:62px;
+  background:rgba(8,11,20,0.82);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
 }
-
-/* ── HEADER ─────────────────────────────── */
-.header {
-  background: #0d0d0d;
-  border-bottom: 1px solid #1e1e1e;
-  padding: 0 36px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:26px;letter-spacing:2px;
+  color:#fff;
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
 }
-
-.header-top {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 20px 0 16px;
+.nav-logo span{color:var(--gold)}
+.nav-badge{
+  width:34px;height:34px;background:var(--gold);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:17px;color:#080b14;font-weight:900;
+  font-family:'Outfit',sans-serif;flex-shrink:0;
 }
-
-.logo { display: flex; align-items: center; gap: 14px; }
-
-.logo-badge {
-  width: 42px; height: 42px;
-  background: var(--gold);
-  border-radius: 4px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-  flex-shrink: 0;
-  color: #0d0d0d;
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
+.nav-links{display:flex;gap:4px;margin-left:40px}
+.nav-links a{
+  color:var(--muted);font-size:12px;font-weight:600;
+  text-decoration:none;padding:6px 14px;border-radius:6px;
+  text-transform:uppercase;letter-spacing:0.8px;
+  transition:all .2s;
 }
-
-.logo-text { display: flex; flex-direction: column; }
-
-.logo-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: #ffffff;
-  line-height: 1;
-}
-.logo-title em { color: var(--gold); font-style: normal; }
-
-.logo-sub {
-  font-size: 10px;
-  color: #555;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-top: 3px;
-  font-weight: 500;
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(255,255,255,0.07)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.nav-stat-pill{
+  background:rgba(240,192,64,0.1);border:1px solid rgba(240,192,64,0.2);
+  color:var(--gold);font-size:11px;font-weight:700;
+  padding:4px 12px;border-radius:20px;letter-spacing:0.3px;
+  white-space:nowrap;
 }
 
-.header-right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+/* ══════════════════════════════════
+   HERO SLIDESHOW
+══════════════════════════════════ */
+.hero{
+  position:relative;height:100vh;min-height:600px;
+  overflow:hidden;
+}
+.slide{
+  position:absolute;inset:0;
+  opacity:0;transition:opacity 1.2s ease;
+  display:flex;align-items:flex-end;
+}
+.slide.active{opacity:1}
+
+/* Barcelona */
+.slide-barca{background:linear-gradient(135deg,#001450 0%,#7d0026 60%,#1a0050 100%)}
+/* PSG */
+.slide-psg{background:linear-gradient(135deg,#000d3d 0%,#8b0000 55%,#000d3d 100%)}
+/* Inter Miami */
+.slide-miami{background:linear-gradient(135deg,#0a0a0a 0%,#4d0028 50%,#0a0a0a 100%)}
+/* Argentina */
+.slide-arg{background:linear-gradient(135deg,#003d7a 0%,#005fa3 40%,#001f4a 100%)}
+
+/* Animated shimmer layer */
+.slide::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 70% 40%, rgba(255,255,255,0.06) 0%,transparent 65%);
+  animation:shimmer 6s ease-in-out infinite alternate;
+}
+@keyframes shimmer{to{transform:scale(1.08) translateX(15px)}}
+
+/* Particle dots */
+.slide::after{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px);
+  background-size:48px 48px;
+  opacity:0.3;
+  animation:floatDots 20s linear infinite;
+}
+@keyframes floatDots{to{background-position:48px 48px}}
+
+/* Big silhouette number */
+.slide-number{
+  position:absolute;right:6%;top:50%;transform:translateY(-50%);
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(220px,28vw,400px);
+  line-height:1;color:rgba(255,255,255,0.04);
+  pointer-events:none;user-select:none;
+  letter-spacing:-10px;
 }
 
-.filter-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  border-radius: 4px;
-  padding: 8px 14px;
-  transition: border-color 0.2s;
+.slide-content{
+  position:relative;z-index:2;
+  padding:0 60px 80px;width:100%;
+  background:linear-gradient(to top,rgba(8,11,20,0.95) 0%,rgba(8,11,20,0.5) 40%,transparent 70%);
 }
-.filter-wrap:focus-within { border-color: var(--gold); }
-.filter-wrap input {
-  background: none; border: none; outline: none;
-  color: #e0e0e0; font-size: 12px; width: 160px;
-  font-family: 'Outfit', sans-serif; font-weight: 400;
-  letter-spacing: 0.3px;
+.slide-era{
+  font-size:10px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:8px;opacity:0;
+  animation:fadeUp .8s .3s forwards;
 }
-.filter-wrap input::placeholder { color: #444; }
+.slide-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,8vw,110px);line-height:.92;
+  color:#fff;letter-spacing:2px;
+  opacity:0;animation:fadeUp .8s .5s forwards;
+}
+.slide-title span{color:var(--gold)}
+.slide-sub{
+  font-size:14px;color:rgba(255,255,255,0.6);
+  margin-top:10px;max-width:480px;line-height:1.6;
+  opacity:0;animation:fadeUp .8s .7s forwards;
+}
+.slide-badges{
+  display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .8s .9s forwards;
+}
+.badge{
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.12);
+  padding:5px 14px;border-radius:4px;
+  font-size:11px;font-weight:700;color:var(--text);
+  letter-spacing:0.5px;
+}
+.badge.gold{background:rgba(240,192,64,0.14);border-color:rgba(240,192,64,0.3);color:var(--gold)}
 
-.stats-bar {
-  display: flex;
-  gap: 0;
-  padding: 12px 0 16px;
-  border-top: 1px solid #1e1e1e;
-  overflow-x: auto;
-}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
-.stat {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 28px 0 0;
-  margin-right: 28px;
-  border-right: 1px solid #222;
-}
-.stat:last-child { border-right: none; }
-.stat-icon { font-size: 13px; opacity: 0.8; }
-.stat-info { display: flex; flex-direction: column; }
-
-.stat-val {
-  font-family: 'Syne', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--gold);
-  line-height: 1;
-  letter-spacing: -0.3px;
-}
-.stat-lbl {
-  font-size: 9px;
-  color: #444;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-top: 3px;
-  white-space: nowrap;
-  font-weight: 600;
+/* Slide reset on inactive */
+.slide:not(.active) .slide-era,
+.slide:not(.active) .slide-title,
+.slide:not(.active) .slide-sub,
+.slide:not(.active) .slide-badges{
+  opacity:0;animation:none;
 }
 
-/* ── BOARD ──────────────────────────────── */
-.board {
-  display: flex;
-  gap: 12px;
-  padding: 28px 36px 60px;
-  align-items: flex-start;
-  min-height: calc(100vh - 140px);
+/* Slide nav dots */
+.slide-dots{
+  position:absolute;bottom:32px;right:60px;z-index:10;
+  display:flex;gap:8px;align-items:center;
+}
+.dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,0.25);
+  border:none;cursor:pointer;padding:0;
+  transition:all .3s;
+}
+.dot.active{background:var(--gold);width:24px;border-radius:3px}
+
+/* Progress bar */
+.slide-progress{
+  position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:rgba(255,255,255,0.06);z-index:10;
+}
+.slide-progress-bar{
+  height:100%;background:var(--gold);width:0%;
+  transition:width linear;
 }
 
-/* ── COLUMN ─────────────────────────────── */
-.col {
-  width: 280px;
-  min-width: 280px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  display: flex;
-  flex-direction: column;
-  max-height: calc(100vh - 180px);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  overflow: hidden;
-  transition: box-shadow 0.2s, border-color 0.2s;
+/* ══════════════════════════════════
+   QUICK STATS BAR
+══════════════════════════════════ */
+.stats-bar{
+  background:rgba(10,13,26,0.95);
+  border-bottom:1px solid var(--border);
+  padding:0 60px;
+  display:flex;gap:0;overflow-x:auto;
+  scrollbar-width:none;
 }
-.col:hover {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  border-color: var(--border-hi);
+.stats-bar::-webkit-scrollbar{display:none}
+.qstat{
+  display:flex;align-items:center;gap:12px;
+  padding:18px 32px 18px 0;margin-right:32px;
+  border-right:1px solid var(--border);
+  flex-shrink:0;
 }
-
-.col-head {
-  padding: 14px 16px 13px;
-  border-bottom: 2px solid var(--accent, #0d0d0d);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--surface);
+.qstat:last-child{border-right:none}
+.qstat-icon{font-size:18px;opacity:.85}
+.qstat-info{display:flex;flex-direction:column}
+.qstat-val{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:26px;letter-spacing:1px;
+  color:var(--gold);line-height:1;
 }
-
-.col-icon { font-size: 14px; }
-
-.col-label {
-  font-family: 'Syne', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--text);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+.qstat-lbl{
+  font-size:9px;color:var(--muted);
+  text-transform:uppercase;letter-spacing:1px;
+  margin-top:2px;white-space:nowrap;font-weight:600;
 }
 
-.col-count {
-  margin-left: auto;
-  background: var(--bg);
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 2px;
-  font-family: 'Syne', sans-serif;
-  border: 1px solid var(--border);
+/* ══════════════════════════════════
+   SECTION SHARED
+══════════════════════════════════ */
+section{padding:72px 60px}
+.section-head{
+  display:flex;align-items:flex-end;
+  justify-content:space-between;margin-bottom:36px;
+}
+.section-label{
+  font-size:9px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:6px;
+}
+.section-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(36px,4vw,56px);letter-spacing:1px;color:#fff;
+  line-height:1;
+}
+.see-all{
+  color:var(--muted);font-size:12px;font-weight:600;
+  text-decoration:none;letter-spacing:0.5px;
+  text-transform:uppercase;transition:color .2s;
+  white-space:nowrap;padding-bottom:4px;
+}
+.see-all:hover{color:var(--gold)}
+
+/* ══════════════════════════════════
+   CLUBS
+══════════════════════════════════ */
+.clubs{background:rgba(5,8,16,0.6)}
+.clubs-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:14px;
+}
+.club-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .25s cubic-bezier(.22,.68,0,1.2), box-shadow .25s, border-color .25s;
+  position:relative;
+}
+.club-card:hover{
+  transform:translateY(-6px) scale(1.01);
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  border-color:var(--club-color,rgba(255,255,255,.18));
+}
+.club-banner{
+  height:110px;
+  background:var(--club-grad);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.club-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 60% 40%,rgba(255,255,255,0.12),transparent 65%);
+}
+.club-banner-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:100px;letter-spacing:-4px;
+  color:rgba(255,255,255,0.07);
+  position:absolute;right:-8px;bottom:-15px;
+  line-height:1;user-select:none;
+}
+.club-emblem{
+  font-size:46px;position:relative;z-index:1;
+  filter:drop-shadow(0 4px 16px rgba(0,0,0,.5));
+}
+.club-body{padding:16px 18px 18px}
+.club-years{
+  font-size:9px;color:var(--muted);
+  text-transform:uppercase;letter-spacing:1.5px;
+  font-weight:700;margin-bottom:4px;
+}
+.club-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;letter-spacing:1px;color:#fff;
+  margin-bottom:10px;line-height:1;
+}
+.club-stats{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:6px;
+}
+.cs{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:8px;padding:8px 6px;text-align:center;
+}
+.cs-val{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px;color:var(--club-color,var(--gold));
+  line-height:1;letter-spacing:.5px;
+}
+.cs-lbl{
+  font-size:8px;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.8px;
+  margin-top:2px;font-weight:600;
+}
+.club-tag{
+  display:inline-flex;margin-top:12px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+  border-radius:4px;padding:3px 10px;
+  font-size:10px;color:var(--muted);font-weight:600;
+  letter-spacing:.4px;gap:5px;align-items:center;
 }
 
-.col-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-height: 64px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-  background: #faf9f7;
+/* ══════════════════════════════════
+   TROPHIES
+══════════════════════════════════ */
+.trophies-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:12px;
 }
-.col-body::-webkit-scrollbar { width: 3px; }
-.col-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 1px; }
-
-.col-body.drag-over {
-  background: #f5f2eb;
-  outline: 2px dashed var(--gold);
-  outline-offset: -4px;
+.trophy{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px 16px 18px;
+  text-align:center;
+  transition:transform .2s, border-color .2s, box-shadow .2s;
+  position:relative;overflow:hidden;
+  cursor:default;
 }
-
-.col-foot {
-  padding: 8px 10px 10px;
-  border-top: 1px solid var(--border);
-  background: var(--surface);
+.trophy:hover{
+  transform:translateY(-4px);
+  border-color:rgba(240,192,64,0.3);
+  box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 30px rgba(240,192,64,0.05);
 }
-
-.add-btn {
-  width: 100%;
-  background: none;
-  border: 1px dashed var(--border-hi);
-  color: var(--muted);
-  padding: 7px;
-  border-radius: 2px;
-  font-size: 11px;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.15s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  text-transform: uppercase;
+.trophy::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(240,192,64,0.06),transparent 65%);
 }
-.add-btn:hover {
-  border-color: var(--text);
-  color: var(--text);
-  background: var(--bg);
+.trophy-icon{font-size:36px;margin-bottom:8px;display:block}
+.trophy-count{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:44px;color:var(--gold);letter-spacing:1px;
+  line-height:1;
+}
+.trophy-name{
+  font-size:11px;font-weight:700;color:var(--text);
+  text-transform:uppercase;letter-spacing:.8px;
+  margin-top:4px;line-height:1.3;
+}
+.trophy-sub{
+  font-size:10px;color:var(--muted);margin-top:3px;
 }
 
-/* ── CARD ───────────────────────────────── */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent, #0d0d0d);
-  border-radius: 2px;
-  padding: 13px 14px 12px;
-  cursor: grab;
-  user-select: none;
-  position: relative;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-  will-change: transform;
+/* ══════════════════════════════════
+   TIMELINE
+══════════════════════════════════ */
+.timeline-section{background:rgba(5,8,16,0.5)}
+.timeline{
+  position:relative;
+  display:flex;flex-direction:column;gap:0;
+  padding-left:40px;
 }
-.card:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  border-color: var(--border-hi);
-  border-left-color: var(--accent, #0d0d0d);
-  transform: translateY(-1px);
+.timeline::before{
+  content:'';position:absolute;left:14px;top:8px;bottom:8px;
+  width:1px;background:linear-gradient(to bottom,transparent,var(--border) 10%,var(--border) 90%,transparent);
 }
-.card.dragging {
-  opacity: 0.25;
-  transform: rotate(1.5deg) scale(0.97) !important;
-  cursor: grabbing;
+.tl-item{
+  display:flex;gap:24px;align-items:flex-start;
+  padding:20px 0;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  position:relative;
+  transition:all .2s;
 }
+.tl-item:last-child{border-bottom:none}
+.tl-item:hover .tl-card{border-color:rgba(255,255,255,0.14);background:rgba(255,255,255,0.06)}
+.tl-dot{
+  position:absolute;left:-33px;top:26px;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--dot-color,var(--muted));
+  border:2px solid var(--bg);
+  box-shadow:0 0 0 3px rgba(255,255,255,0.06);
+  flex-shrink:0;
+}
+.tl-year{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:32px;color:rgba(255,255,255,0.15);
+  line-height:1;min-width:80px;padding-top:4px;
+  letter-spacing:1px;
+}
+.tl-card{
+  flex:1;background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;padding:14px 18px;
+  transition:all .2s;
+}
+.tl-event{
+  font-size:13px;font-weight:700;color:var(--text);
+  margin-bottom:4px;
+}
+.tl-detail{font-size:11.5px;color:var(--muted);line-height:1.55}
+.tl-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.tl-badge{
+  font-size:9px;font-weight:700;padding:2px 9px;
+  border-radius:20px;letter-spacing:.4px;
+  text-transform:uppercase;
+}
+.tl-badge-gold{background:rgba(240,192,64,0.12);border:1px solid rgba(240,192,64,0.25);color:var(--gold)}
+.tl-badge-blue{background:rgba(116,172,223,0.1);border:1px solid rgba(116,172,223,0.2);color:var(--blue)}
+.tl-badge-green{background:rgba(76,175,125,0.1);border:1px solid rgba(76,175,125,0.2);color:#4caf7d}
 
-.card-top {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 7px;
+/* ══════════════════════════════════
+   RECORDS
+══════════════════════════════════ */
+.records-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:12px;
 }
+.record{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:18px 20px;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:all .2s;
+}
+.record:hover{border-color:rgba(255,255,255,0.14);transform:translateX(4px)}
+.record-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.record-body{}
+.record-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px}
+.record-val{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;color:var(--gold);letter-spacing:.5px;
+  line-height:1;margin-bottom:2px;
+}
+.record-desc{font-size:11px;color:var(--muted);line-height:1.5}
 
-.card-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.45;
-  flex: 1;
-  letter-spacing: -0.1px;
+/* ══════════════════════════════════
+   NEWS / HIGHLIGHTS
+══════════════════════════════════ */
+.news-section{background:rgba(5,8,16,0.5)}
+.news-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:14px;
 }
+@media(max-width:900px){.news-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.news-grid{grid-template-columns:1fr}}
+.news-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  cursor:pointer;transition:all .22s;
+}
+.news-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.5);border-color:rgba(255,255,255,0.12)}
+.news-thumb{
+  height:160px;
+  background:var(--news-grad);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.news-thumb::after{
+  content:var(--news-icon,'▶');
+  font-size:50px;opacity:0.15;
+  position:absolute;
+}
+.news-category{
+  position:absolute;top:12px;left:12px;
+  background:rgba(8,11,20,0.85);
+  border:1px solid var(--border);
+  border-radius:4px;padding:3px 10px;
+  font-size:9px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.8px;
+  color:var(--gold);
+}
+.news-body{padding:14px 16px 16px}
+.news-meta{font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:500}
+.news-title{font-size:13px;font-weight:700;color:#fff;line-height:1.45;margin-bottom:8px}
+.news-desc{font-size:11.5px;color:var(--muted);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
-.priority-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  margin-top: 5px;
-  flex-shrink: 0;
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer{
+  background:#050810;
+  border-top:1px solid var(--border);
+  padding:32px 60px;
+  display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:16px;
 }
-.p-high   { background: var(--red); }
-.p-medium { background: var(--orange); }
-.p-low    { background: var(--green); }
-.p-none   { background: var(--dim); }
+.footer-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;letter-spacing:2px;color:rgba(255,255,255,0.3);
+}
+.footer-logo span{color:var(--gold)}
+.footer-note{font-size:11px;color:var(--muted)}
 
-.card-desc {
-  font-size: 11.5px;
-  color: var(--muted);
-  line-height: 1.6;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 8px;
-  font-weight: 400;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 8px;
-}
-
-.tag {
-  font-size: 9px;
-  padding: 2px 7px;
-  border-radius: 2px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-family: 'Outfit', sans-serif;
-}
-
-.card-metrics {
-  display: flex;
-  gap: 12px;
-  padding-top: 8px;
-  border-top: 1px solid var(--border);
-  margin-top: 2px;
-}
-
-.metric {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10.5px;
-  color: var(--muted);
-  font-weight: 500;
-}
-.metric-val {
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  color: var(--gold);
-  font-size: 11px;
-}
-
-.card-actions {
-  display: none;
-  position: absolute;
-  bottom: 9px; right: 9px;
-  gap: 4px;
-}
-.card:hover .card-actions { display: flex; }
-
-.card-btn {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--muted);
-  border-radius: 2px;
-  padding: 3px 9px;
-  font-size: 9.5px;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.12s;
-}
-.card-btn:hover { background: var(--text); color: #fff; border-color: var(--text); }
-.card-btn.del:hover { background: var(--red); border-color: var(--red); color: #fff; }
-
-.empty { text-align: center; color: var(--dim); font-size: 11px; padding: 28px 0; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
-
-/* ── MODAL ──────────────────────────────── */
-.overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(13,13,13,0.65);
-  z-index: 500;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(4px);
-}
-.overlay.open { display: flex; }
-
-.modal {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  width: 500px;
-  max-width: 96vw;
-  max-height: 92vh;
-  overflow-y: auto;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.2);
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-}
-
-.modal-head {
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #0d0d0d;
-}
-
-.modal-icon { font-size: 18px; }
-.modal-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.modal-x {
-  margin-left: auto;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  color: #888;
-  width: 28px; height: 28px;
-  border-radius: 2px;
-  cursor: pointer;
-  font-size: 17px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.12s;
-}
-.modal-x:hover { background: #2a2a2a; color: #fff; }
-
-.modal-body {
-  padding: 20px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.fgroup { display: flex; flex-direction: column; gap: 5px; }
-
-.flabel {
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  font-family: 'Outfit', sans-serif;
-}
-
-.finput, .ftextarea, .fselect {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 2px;
-  padding: 9px 12px;
-  font-size: 13px;
-  font-family: 'Outfit', sans-serif;
-  outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  width: 100%;
-  font-weight: 400;
-}
-.finput:focus, .ftextarea:focus, .fselect:focus {
-  border-color: var(--text);
-  background: var(--surface);
-  box-shadow: 0 0 0 3px rgba(13,13,13,0.06);
-}
-.ftextarea { resize: vertical; min-height: 72px; }
-.fselect option { background: var(--surface); }
-
-.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-.tags-box {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  padding: 7px 8px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  min-height: 42px;
-  align-items: center;
-  cursor: text;
-  transition: border-color 0.15s;
-}
-.tags-box:focus-within {
-  border-color: var(--text);
-  background: var(--surface);
-}
-
-.tag-pill {
-  background: #0d0d0d;
-  color: #fff;
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 2px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  font-family: 'Outfit', sans-serif;
-}
-.tag-x { cursor: pointer; opacity: 0.6; line-height: 1; font-size: 13px; }
-.tag-x:hover { opacity: 1; }
-
-.tag-raw {
-  background: none; border: none; outline: none;
-  color: var(--text); font-size: 12px;
-  font-family: 'Outfit', sans-serif; flex: 1; min-width: 80px;
-}
-
-.tag-hints { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
-
-.tag-hint {
-  font-size: 9px;
-  padding: 2px 8px;
-  border-radius: 2px;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  cursor: pointer;
-  background: none;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  transition: all 0.12s;
-}
-.tag-hint:hover { border-color: var(--text); color: var(--text); background: var(--bg); }
-
-.metrics-box {
-  background: var(--gold-bg);
-  border: 1px solid #e8d08a;
-  border-radius: 2px;
-  padding: 14px;
-}
-.metrics-head {
-  font-family: 'Syne', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--gold);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.metrics-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-.m-wrap { display: flex; flex-direction: column; gap: 4px; }
-.m-lbl { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; font-family: 'Outfit', sans-serif; }
-.m-input {
-  background: var(--surface);
-  border: 1px solid #e8d08a;
-  color: var(--text);
-  border-radius: 2px;
-  padding: 6px 9px;
-  font-size: 12px;
-  font-family: 'Outfit', sans-serif;
-  outline: none;
-  width: 100%;
-  transition: border-color 0.12s;
-}
-.m-input:focus { border-color: var(--gold); }
-
-.modal-foot {
-  padding: 12px 24px 18px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  background: var(--bg);
-}
-
-.btn {
-  padding: 9px 22px;
-  border-radius: 2px;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  border: 1px solid transparent;
-  font-family: 'Outfit', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  transition: all 0.15s;
-}
-.btn-ghost {
-  background: var(--surface);
-  border-color: var(--border);
-  color: var(--muted);
-}
-.btn-ghost:hover { background: var(--bg); border-color: var(--border-hi); color: var(--text); }
-
-.btn-primary {
-  background: #0d0d0d;
-  color: #ffffff;
-  border-color: #0d0d0d;
-}
-.btn-primary:hover {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: #0d0d0d;
-}
-
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 1px; }
+/* ══════════════════════════════════
+   COUNTER ANIMATION
+══════════════════════════════════ */
+.count-up{display:inline-block}
 </style>
 </head>
 <body>
 
-<!-- ── HEADER ── -->
-<header class="header">
-  <div class="header-top">
-    <div class="logo">
-      <div class="logo-badge">★</div>
-      <div class="logo-text">
-        <div class="logo-title">Messi <em>Board</em></div>
-        <div class="logo-sub">Content Tracker · La Pulga · #10</div>
-      </div>
-    </div>
-    <div class="header-right">
-      <div class="filter-wrap">
-        <span style="color:#444;font-size:12px">⌕</span>
-        <input type="text" id="searchInput" placeholder="Filter cards..." oninput="renderBoard()">
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo"><div class="nav-badge">10</div>MESSI <span>UNIVERSE</span></a>
+  <div class="nav-links">
+    <a href="#clubs" class="active">Clubs</a>
+    <a href="#trophies">Trophies</a>
+    <a href="#timeline">Career</a>
+    <a href="#records">Records</a>
+    <a href="#news">Highlights</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-stat-pill">🏆 8× Ballon d'Or</div>
+    <div class="nav-stat-pill">⚽ 819 Goals</div>
+  </div>
+</nav>
+
+<!-- ── HERO SLIDESHOW ── -->
+<div class="hero" id="hero">
+
+  <!-- Slide 1: Barcelona -->
+  <div class="slide slide-barca active" data-index="0">
+    <div class="slide-number">10</div>
+    <div class="slide-content">
+      <div class="slide-era">2004 – 2021 · FC Barcelona</div>
+      <div class="slide-title">THE<br><span>BARCA</span><br>LEGEND</div>
+      <div class="slide-sub">17 years. 672 goals. 35 trophies. The boy from Rosario who became the greatest player Camp Nou ever witnessed.</div>
+      <div class="slide-badges">
+        <div class="badge gold">672 Goals</div>
+        <div class="badge gold">10× La Liga</div>
+        <div class="badge">4× Champions League</div>
+        <div class="badge">7× Copa del Rey</div>
       </div>
     </div>
   </div>
-  <div class="stats-bar">
-    <div class="stat">
-      <span class="stat-icon">🏆</span>
-      <div class="stat-info"><span class="stat-val">8</span><span class="stat-lbl">Ballon d'Or</span></div>
-    </div>
-    <div class="stat">
-      <span class="stat-icon">⚽</span>
-      <div class="stat-info"><span class="stat-val">819</span><span class="stat-lbl">Career Goals</span></div>
-    </div>
-    <div class="stat">
-      <span class="stat-icon">🎯</span>
-      <div class="stat-info"><span class="stat-val">369</span><span class="stat-lbl">Assists</span></div>
-    </div>
-    <div class="stat">
-      <span class="stat-icon">🌍</span>
-      <div class="stat-info"><span class="stat-val">2022</span><span class="stat-lbl">World Champion</span></div>
-    </div>
-    <div class="stat">
-      <span class="stat-icon">🥇</span>
-      <div class="stat-info"><span class="stat-val">4×</span><span class="stat-lbl">Champions League</span></div>
-    </div>
-    <div class="stat">
-      <span class="stat-icon">🇦🇷</span>
-      <div class="stat-info"><span class="stat-val">106</span><span class="stat-lbl">Intl Goals</span></div>
-    </div>
-    <div class="stat">
-      <span class="stat-icon">▦</span>
-      <div class="stat-info"><span class="stat-val" id="totalCards">0</span><span class="stat-lbl">Total Cards</span></div>
+
+  <!-- Slide 2: PSG -->
+  <div class="slide slide-psg" data-index="1">
+    <div class="slide-number">30</div>
+    <div class="slide-content">
+      <div class="slide-era">2021 – 2023 · Paris Saint-Germain</div>
+      <div class="slide-title">PARIS<br><span>SAINT-</span><br>GERMAIN</div>
+      <div class="slide-sub">A new chapter in the City of Light. Despite a difficult start, Messi delivered magic in his two Parisian seasons before his next adventure.</div>
+      <div class="slide-badges">
+        <div class="badge gold">32 Goals</div>
+        <div class="badge gold">2× Ligue 1</div>
+        <div class="badge">35 Appearances</div>
+      </div>
     </div>
   </div>
-</header>
 
-<!-- ── BOARD ── -->
-<div class="board" id="board"></div>
-
-<!-- ── MODAL ── -->
-<div class="overlay" id="overlay">
-  <div class="modal">
-    <div class="modal-head">
-      <span class="modal-icon" id="mIcon"></span>
-      <span class="modal-title" id="mTitle">Add Card</span>
-      <button class="modal-x" onclick="closeModal()">×</button>
-    </div>
-    <div class="modal-body">
-      <input type="hidden" id="fId">
-      <input type="hidden" id="fCol">
-
-      <div class="fgroup">
-        <label class="flabel">Title</label>
-        <input class="finput" id="fTitle" placeholder="e.g. Messi's 2022 World Cup journey...">
+  <!-- Slide 3: Inter Miami -->
+  <div class="slide slide-miami" data-index="2">
+    <div class="slide-number">10</div>
+    <div class="slide-content">
+      <div class="slide-era">2023 – Present · Inter Miami CF</div>
+      <div class="slide-title">THE<br><span>MIAMI</span><br>MIRACLE</div>
+      <div class="slide-sub">Messi's arrival transformed American soccer overnight. Leagues Cup glory on debut. MLS viewership records shattered. La Pulga rewrote history again.</div>
+      <div class="slide-badges">
+        <div class="badge gold">Leagues Cup Winner</div>
+        <div class="badge gold">MLS Best XI</div>
+        <div class="badge">Record Attendance</div>
       </div>
-
-      <div class="fgroup">
-        <label class="flabel">Description / Notes</label>
-        <textarea class="ftextarea" id="fDesc" placeholder="Key angles, context, ideas, links..."></textarea>
-      </div>
-
-      <div class="frow">
-        <div class="fgroup">
-          <label class="flabel">Priority</label>
-          <select class="fselect" id="fPriority">
-            <option value="none">— None</option>
-            <option value="low">🟢 Low</option>
-            <option value="medium">🟠 Medium</option>
-            <option value="high">🔴 High</option>
-          </select>
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Column</label>
-          <select class="fselect" id="fColSel">
-            <option value="ideas">💡 Ideas</option>
-            <option value="draft">📝 Drafting</option>
-            <option value="progress">🔥 In Progress</option>
-            <option value="published">✅ Published</option>
-            <option value="archive">📊 Archive</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="fgroup">
-        <label class="flabel">Tags</label>
-        <div class="tags-box" id="tagsBox" onclick="document.getElementById('tagIn').focus()">
-          <input class="tag-raw" id="tagIn" placeholder="Type a tag, press Enter...">
-        </div>
-        <div class="tag-hints" id="tagHints"></div>
-      </div>
-
-      <div class="metrics-box">
-        <div class="metrics-head">📊 Performance Metrics <span style="color:var(--muted);font-weight:400;font-size:9px;letter-spacing:0">(Published &amp; Archive)</span></div>
-        <div class="metrics-grid">
-          <div class="m-wrap"><div class="m-lbl">👁 Views</div><input class="m-input" id="mViews" type="number" placeholder="0"></div>
-          <div class="m-wrap"><div class="m-lbl">❤️ Likes</div><input class="m-input" id="mLikes" type="number" placeholder="0"></div>
-          <div class="m-wrap"><div class="m-lbl">↗ Shares</div><input class="m-input" id="mShares" type="number" placeholder="0"></div>
-        </div>
-        <div class="fgroup">
-          <textarea class="ftextarea" id="mNotes" placeholder="Performance notes — what worked, takeaways, audience reaction..." style="min-height:56px;font-size:12px"></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveCard()">Save Card</button>
     </div>
   </div>
+
+  <!-- Slide 4: Argentina -->
+  <div class="slide slide-arg" data-index="3">
+    <div class="slide-number">10</div>
+    <div class="slide-content">
+      <div class="slide-era">2005 – Present · Argentina National Team</div>
+      <div class="slide-title">WORLD<br><span>CHAMPION</span><br>FOREVER</div>
+      <div class="slide-sub">Qatar 2022. The trophy that completed the greatest career in football history. Finally, the World Cup belonged to Lionel Andrés Messi.</div>
+      <div class="slide-badges">
+        <div class="badge gold">🌍 World Cup 2022</div>
+        <div class="badge gold">🏆 Copa America 2021</div>
+        <div class="badge">106 Goals</div>
+        <div class="badge">180 Caps</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dots -->
+  <div class="slide-dots">
+    <button class="dot active" onclick="goSlide(0)"></button>
+    <button class="dot" onclick="goSlide(1)"></button>
+    <button class="dot" onclick="goSlide(2)"></button>
+    <button class="dot" onclick="goSlide(3)"></button>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="slide-progress"><div class="slide-progress-bar" id="progressBar"></div></div>
 </div>
 
+<!-- ── QUICK STATS BAR ── -->
+<div class="stats-bar">
+  <div class="qstat"><span class="qstat-icon">⚽</span><div class="qstat-info"><span class="qstat-val count-up" data-target="819">0</span><span class="qstat-lbl">Career Goals</span></div></div>
+  <div class="qstat"><span class="qstat-icon">🎯</span><div class="qstat-info"><span class="qstat-val count-up" data-target="369">0</span><span class="qstat-lbl">Assists</span></div></div>
+  <div class="qstat"><span class="qstat-icon">🏆</span><div class="qstat-info"><span class="qstat-val count-up" data-target="8">0</span><span class="qstat-lbl">Ballon d'Or</span></div></div>
+  <div class="qstat"><span class="qstat-icon">🌍</span><div class="qstat-info"><span class="qstat-val">2022</span><span class="qstat-lbl">World Cup</span></div></div>
+  <div class="qstat"><span class="qstat-icon">🥇</span><div class="qstat-info"><span class="qstat-val count-up" data-target="45">0</span><span class="qstat-lbl">Major Trophies</span></div></div>
+  <div class="qstat"><span class="qstat-icon">🇦🇷</span><div class="qstat-info"><span class="qstat-val count-up" data-target="106">0</span><span class="qstat-lbl">Intl Goals</span></div></div>
+  <div class="qstat"><span class="qstat-icon">📅</span><div class="qstat-info"><span class="qstat-val count-up" data-target="1083">0</span><span class="qstat-lbl">Career Apps</span></div></div>
+</div>
+
+<!-- ── CLUBS ── -->
+<section class="clubs" id="clubs">
+  <div class="section-head">
+    <div>
+      <div class="section-label">Career</div>
+      <div class="section-title">Clubs</div>
+    </div>
+    <a href="#timeline" class="see-all">Full Timeline →</a>
+  </div>
+  <div class="clubs-grid">
+
+    <div class="club-card" style="--club-grad:linear-gradient(135deg,#004d98,#a50044);--club-color:#74acdf">
+      <div class="club-banner">
+        <div class="club-emblem">🔵🔴</div>
+        <div class="club-banner-num">10</div>
+      </div>
+      <div class="club-body">
+        <div class="club-years">2004 – 2021 · 17 Seasons</div>
+        <div class="club-name">FC Barcelona</div>
+        <div class="club-stats">
+          <div class="cs"><div class="cs-val">672</div><div class="cs-lbl">Goals</div></div>
+          <div class="cs"><div class="cs-val">303</div><div class="cs-lbl">Assists</div></div>
+          <div class="cs"><div class="cs-val">778</div><div class="cs-lbl">Apps</div></div>
+        </div>
+        <div class="club-tag">🏆 35 Trophies with Barça</div>
+      </div>
+    </div>
+
+    <div class="club-card" style="--club-grad:linear-gradient(135deg,#001a6e,#c8102e);--club-color:#c8102e">
+      <div class="club-banner">
+        <div class="club-emblem">🔵🔴</div>
+        <div class="club-banner-num">30</div>
+      </div>
+      <div class="club-body">
+        <div class="club-years">2021 – 2023 · 2 Seasons</div>
+        <div class="club-name">Paris Saint-Germain</div>
+        <div class="club-stats">
+          <div class="cs"><div class="cs-val">32</div><div class="cs-lbl">Goals</div></div>
+          <div class="cs"><div class="cs-val">35</div><div class="cs-lbl">Assists</div></div>
+          <div class="cs"><div class="cs-val">75</div><div class="cs-lbl">Apps</div></div>
+        </div>
+        <div class="club-tag">🥇 2× Ligue 1 Champion</div>
+      </div>
+    </div>
+
+    <div class="club-card" style="--club-grad:linear-gradient(135deg,#f7b5cd,#231f20);--club-color:#f7b5cd">
+      <div class="club-banner">
+        <div class="club-emblem">🌸🖤</div>
+        <div class="club-banner-num">10</div>
+      </div>
+      <div class="club-body">
+        <div class="club-years">2023 – Present · MLS</div>
+        <div class="club-name">Inter Miami CF</div>
+        <div class="club-stats">
+          <div class="cs"><div class="cs-val">50+</div><div class="cs-lbl">Goals</div></div>
+          <div class="cs"><div class="cs-val">30+</div><div class="cs-lbl">Assists</div></div>
+          <div class="cs"><div class="cs-val">70+</div><div class="cs-lbl">Apps</div></div>
+        </div>
+        <div class="club-tag">🏆 Leagues Cup Winner</div>
+      </div>
+    </div>
+
+    <div class="club-card" style="--club-grad:linear-gradient(135deg,#74acdf,#ffffff20);--club-color:#74acdf">
+      <div class="club-banner">
+        <div class="club-emblem">🇦🇷</div>
+        <div class="club-banner-num">10</div>
+      </div>
+      <div class="club-body">
+        <div class="club-years">2005 – Present · Captain</div>
+        <div class="club-name">Argentina NT</div>
+        <div class="club-stats">
+          <div class="cs"><div class="cs-val">106</div><div class="cs-lbl">Goals</div></div>
+          <div class="cs"><div class="cs-val">58</div><div class="cs-lbl">Assists</div></div>
+          <div class="cs"><div class="cs-val">180</div><div class="cs-lbl">Caps</div></div>
+        </div>
+        <div class="club-tag">🌍 World Cup Champion 2022</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── TROPHIES ── -->
+<section id="trophies">
+  <div class="section-head">
+    <div>
+      <div class="section-label">Honours</div>
+      <div class="section-title">Trophies & Awards</div>
+    </div>
+  </div>
+  <div class="trophies-grid">
+    <div class="trophy"><span class="trophy-icon">🏅</span><div class="trophy-count">8</div><div class="trophy-name">Ballon d'Or</div><div class="trophy-sub">2009 10 11 12 15 19 21 23</div></div>
+    <div class="trophy"><span class="trophy-icon">🌍</span><div class="trophy-count">1</div><div class="trophy-name">FIFA World Cup</div><div class="trophy-sub">Qatar 2022</div></div>
+    <div class="trophy"><span class="trophy-icon">🏆</span><div class="trophy-count">2</div><div class="trophy-name">Copa America</div><div class="trophy-sub">2021 + U-20 2005</div></div>
+    <div class="trophy"><span class="trophy-icon">⭐</span><div class="trophy-count">4</div><div class="trophy-name">Champions League</div><div class="trophy-sub">2006 09 11 15</div></div>
+    <div class="trophy"><span class="trophy-icon">🇪🇸</span><div class="trophy-count">10</div><div class="trophy-name">La Liga</div><div class="trophy-sub">FC Barcelona</div></div>
+    <div class="trophy"><span class="trophy-icon">🥇</span><div class="trophy-count">7</div><div class="trophy-name">Copa del Rey</div><div class="trophy-sub">FC Barcelona</div></div>
+    <div class="trophy"><span class="trophy-icon">🌐</span><div class="trophy-count">3</div><div class="trophy-name">Club World Cup</div><div class="trophy-sub">2009 11 15</div></div>
+    <div class="trophy"><span class="trophy-icon">👑</span><div class="trophy-count">6</div><div class="trophy-name">Golden Boot</div><div class="trophy-sub">European & FIFA</div></div>
+  </div>
+</section>
+
+<!-- ── TIMELINE ── -->
+<section class="timeline-section" id="timeline">
+  <div class="section-head">
+    <div>
+      <div class="section-label">Journey</div>
+      <div class="section-title">Career Timeline</div>
+    </div>
+  </div>
+  <div class="timeline">
+
+    <div class="tl-item" style="--dot-color:#c8920a">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1987</div>
+      <div class="tl-card">
+        <div class="tl-event">Born in Rosario, Argentina</div>
+        <div class="tl-detail">Lionel Andrés Messi born on June 24, 1987 in Rosario, Santa Fe. Begins playing at Grandoli FC aged 4.</div>
+        <div class="tl-badges"><span class="tl-badge tl-badge-blue">🇦🇷 Rosario</span></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--dot-color:#74acdf">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2001</div>
+      <div class="tl-card">
+        <div class="tl-event">Joins FC Barcelona Academy — La Masia</div>
+        <div class="tl-detail">Barcelona agrees to pay for Messi's growth hormone treatment. The famous napkin contract. A 13-year-old boy arrives in Catalonia and changes football forever.</div>
+        <div class="tl-badges"><span class="tl-badge tl-badge-blue">La Masia</span><span class="tl-badge tl-badge-gold">Age 13</span></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--dot-color:#74acdf">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2004</div>
+      <div class="tl-card">
+        <div class="tl-event">First Team Debut for FC Barcelona</div>
+        <div class="tl-detail">Makes his official debut on October 16, 2004 vs Espanyol. Aged 17 years and 114 days — the youngest player to appear for Barcelona at the time.</div>
+        <div class="tl-badges"><span class="tl-badge tl-badge-blue">Age 17</span><span class="tl-badge tl-badge-gold">Youngest Debut</span></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--dot-color:#c8920a">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2009</div>
+      <div class="tl-card">
+        <div class="tl-event">First Ballon d'Or + Treble with Barcelona</div>
+        <div class="tl-detail">Wins La Liga, Copa del Rey and Champions League under Pep Guardiola. Scores 38 goals. Wins first Ballon d'Or aged 22.</div>
+        <div class="tl-badges"><span class="tl-badge tl-badge-gold">🏅 First Ballon d'Or</span><span class="tl-badge tl-badge-green">Treble</span></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--dot-color:#c8920a">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2012</div>
+      <div class="tl-card">
+        <div class="tl-event">91 Goals in a Calendar Year — World Record</div>
+        <div class="tl-detail">Breaks Gerd Müller's 40-year record of most goals in a calendar year. Scores 91 goals in all competitions in 2012. Wins 4th consecutive Ballon d'Or.</div>
+        <div class="tl-badges"><span class="tl-badge tl-badge-gold">🌍 World Record</span><span class="tl-badge tl-badge-gold">91 Goals</span></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--dot-color:#e05c5c">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2021</div>
+      <div class="tl-card">
+        <div class="tl-event">Tearful Barcelona Farewell + Copa America Victory</div>
+        <div class="tl-detail">Leaves Barcelona in tears due to financial crisis. Joins PSG. But first wins Copa America with Argentina — his first major international trophy.</div>
+        <div class="tl-badges"><span class="tl-badge tl-badge-gold">🏆 Copa America</span><span class="tl-badge tl-badge-blue">PSG</span></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--dot-color:#c8920a">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2022</div>
+      <div class="tl-card">
+        <div class="tl-event">FIFA World Cup Champion — Qatar 2022</div>
+        <div class="tl-detail">The greatest World Cup final ever played. Messi scores twice. Argentina win on penalties vs France. The GOAT debate ends. He wins tournament Golden Boot + Golden Ball.</div>
+        <div class="tl-badges"><span class="tl-badge tl-badge-gold">🌍 World Cup</span><span class="tl-badge tl-badge-gold">Golden Ball</span><span class="tl-badge tl-badge-gold">Golden Boot</span></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="--dot-color:#f7b5cd">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2023</div>
+      <div class="tl-card">
+        <div class="tl-event">Inter Miami & 8th Ballon d'Or</div>
+        <div class="tl-detail">Joins Inter Miami and immediately wins Leagues Cup, scoring in every match. Wins record 8th Ballon d'Or. Transforms American soccer.</div>
+        <div class="tl-badges"><span class="tl-badge tl-badge-gold">🏅 8th Ballon d'Or</span><span class="tl-badge tl-badge-blue">Inter Miami</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── RECORDS ── -->
+<section id="records">
+  <div class="section-head">
+    <div>
+      <div class="section-label">Unbreakable</div>
+      <div class="section-title">World Records</div>
+    </div>
+  </div>
+  <div class="records-grid">
+    <div class="record"><div class="record-icon">🏅</div><div class="record-body"><div class="record-title">Ballon d'Or Wins</div><div class="record-val">8</div><div class="record-desc">Most Ballon d'Or awards in history (2009, 2010, 2011, 2012, 2015, 2019, 2021, 2023)</div></div></div>
+    <div class="record"><div class="record-icon">🌍</div><div class="record-title-holder"><div class="record-body"><div class="record-title">World Cup Goals</div><div class="record-val">13</div><div class="record-desc">Most goals scored in FIFA World Cup history across all tournaments</div></div></div></div>
+    <div class="record"><div class="record-icon">📅</div><div class="record-body"><div class="record-title">Goals in a Calendar Year</div><div class="record-val">91</div><div class="record-desc">Most goals scored in a single calendar year (2012), breaking Gerd Müller's record</div></div></div>
+    <div class="record"><div class="record-icon">🇦🇷</div><div class="record-body"><div class="record-title">Argentina All-Time Scorer</div><div class="record-val">106</div><div class="record-desc">All-time top scorer for the Argentina national team, surpassing Gabriel Batistuta</div></div></div>
+    <div class="record"><div class="record-icon">🇪🇸</div><div class="record-body"><div class="record-title">La Liga Goals</div><div class="record-val">474</div><div class="record-desc">All-time top scorer in La Liga history, beating Cristiano Ronaldo's record</div></div></div>
+    <div class="record"><div class="record-icon">🏆</div><div class="record-body"><div class="record-title">Champions League Top Scorer</div><div class="record-val">129</div><div class="record-desc">Former all-time Champions League top scorer before Ronaldo overtook him</div></div></div>
+  </div>
+</section>
+
+<!-- ── NEWS / HIGHLIGHTS ── -->
+<section class="news-section" id="news">
+  <div class="section-head">
+    <div>
+      <div class="section-label">Highlights</div>
+      <div class="section-title">Top Moments</div>
+    </div>
+  </div>
+  <div class="news-grid">
+
+    <div class="news-card" style="--news-grad:linear-gradient(135deg,#001450,#7d0026);--news-icon:'⚽'">
+      <div class="news-thumb">
+        <div class="news-category">Goals</div>
+      </div>
+      <div class="news-body">
+        <div class="news-meta">Champions League · April 2019</div>
+        <div class="news-title">The Goal vs Liverpool — Individual Genius</div>
+        <div class="news-desc">Messi's stunning long-range strike at Anfield silenced the Kop and sent Barcelona to the CL final.</div>
+      </div>
+    </div>
+
+    <div class="news-card" style="--news-grad:linear-gradient(135deg,#001a6e,#c8102e);--news-icon:'🌍'">
+      <div class="news-thumb">
+        <div class="news-category">World Cup</div>
+      </div>
+      <div class="news-body">
+        <div class="news-meta">Qatar 2022 · December 18</div>
+        <div class="news-title">The Final — Greatest World Cup Performance Ever</div>
+        <div class="news-desc">2 goals, 1 penalty in the shootout, Golden Ball and Golden Boot. The night that completed the legend.</div>
+      </div>
+    </div>
+
+    <div class="news-card" style="--news-grad:linear-gradient(135deg,#0a2a0a,#1e7a4a);--news-icon:'🏆'">
+      <div class="news-thumb">
+        <div class="news-category">Copa America</div>
+      </div>
+      <div class="news-body">
+        <div class="news-meta">Maracanã · July 2021</div>
+        <div class="news-title">Copa America 2021 — The Drought Ends at Maracanã</div>
+        <div class="news-desc">Argentina 1–0 Brazil. The moment Messi finally lifted his first major international trophy in tears.</div>
+      </div>
+    </div>
+
+    <div class="news-card" style="--news-grad:linear-gradient(135deg,#2a0a3a,#6b46c1);--news-icon:'🔥'">
+      <div class="news-thumb">
+        <div class="news-category">Record</div>
+      </div>
+      <div class="news-body">
+        <div class="news-meta">La Liga · Various</div>
+        <div class="news-title">91 Goals in 2012 — A Record That May Never Fall</div>
+        <div class="news-desc">Club, country, every competition. Messi scored 91 goals in calendar year 2012, shattering the all-time record.</div>
+      </div>
+    </div>
+
+    <div class="news-card" style="--news-grad:linear-gradient(135deg,#1a0050,#004d98);--news-icon:'👑'">
+      <div class="news-thumb">
+        <div class="news-category">Ballon d'Or</div>
+      </div>
+      <div class="news-body">
+        <div class="news-meta">Paris · October 2023</div>
+        <div class="news-title">8th Ballon d'Or — No One Will Touch This Record</div>
+        <div class="news-desc">At 36 years old, Messi claims his 8th Ballon d'Or following his World Cup triumph and Leagues Cup glory.</div>
+      </div>
+    </div>
+
+    <div class="news-card" style="--news-grad:linear-gradient(135deg,#3d0a1a,#f7b5cd30);--news-icon:'🌸'">
+      <div class="news-thumb">
+        <div class="news-category">Inter Miami</div>
+      </div>
+      <div class="news-body">
+        <div class="news-meta">MLS · 2023</div>
+        <div class="news-title">The Miami Effect — Transforming American Soccer</div>
+        <div class="news-desc">Sellout crowds in every city. MLS viewership records. A new generation of American fans discovering the beautiful game through Messi.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">MESSI <span>UNIVERSE</span></div>
+  <div class="footer-note">Lionel Andrés Messi · Born June 24, 1987 · Rosario, Argentina · The Greatest of All Time</div>
+</footer>
+
 <script>
-const COLS = [
-  { id:'ideas',     icon:'💡', label:'Ideas',       accent:'#1a5fa8' },
-  { id:'draft',     icon:'📝', label:'Drafting',     accent:'#6b46c1' },
-  { id:'progress',  icon:'🔥', label:'In Progress',  accent:'#d45f0a' },
-  { id:'published', icon:'✅', label:'Published',    accent:'#1e7a4a' },
-  { id:'archive',   icon:'📊', label:'Archive',      accent:'#c8920a' },
-];
+/* ── SLIDESHOW ── */
+const slides = document.querySelectorAll('.slide');
+const dots   = document.querySelectorAll('.dot');
+const bar    = document.getElementById('progressBar');
+let current  = 0;
+let timer    = null;
+const INTERVAL = 6000;
 
-const HINTS = ['Goals','Assists','Records','Barcelona','Argentina','PSG','Inter Miami',
-               'Champions League','WC 2022','La Liga','Analysis','Stats','Personal','Technique','Tactical'];
-
-let cards = [];
-let activeTags = [];
-let dragId = null;
-let dragSrc = null;
-
-const SEED = [
-  { id:'s1', column:'archive', priority:'high', title:"Messi's 2021 Copa America Victory", desc:"Argentina finally breaks the curse. Messi's first major international trophy. Emotional final vs Brazil at Maracanã.", tags:['Argentina','Records','Personal'], metrics:{ views:142000, likes:8900, shares:3200, notes:"Best performing piece of the year. Video format worked extremely well." } },
-  { id:'s2', column:'archive', priority:'medium', title:"Barcelona Farewell — End of an Era", desc:"Messi's tearful goodbye to Camp Nou. 21 years, 672 goals, 10 La Liga titles. Covered the emotional angle + raw stats.", tags:['Barcelona','Records','Personal'], metrics:{ views:89000, likes:6100, shares:2100, notes:"Strong emotional resonance. The stat summary thread got 2.1K shares standalone." } },
-  { id:'s3', column:'archive', priority:'low', title:"Messi at PSG — Disappointing Chapter", desc:"Why Paris never quite worked. Tactical misfit, off-pitch issues, the league gap. Honest post-mortem.", tags:['PSG','Analysis','Stats'], metrics:{ views:41000, likes:2300, shares:780, notes:"Lower engagement — negative framing may have hurt." } },
-  { id:'s4', column:'published', priority:'high', title:"Messi's 8th Ballon d'Or — The GOAT Is Settled", desc:"Breaking down why the 8th Ballon d'Or cements Messi's status. Head-to-head comparison with all competitors' seasons.", tags:['Records','Analysis','Stats'], metrics:{ views:54000, likes:4200, shares:1800, notes:"Still growing organically. Thread outperformed the long-form article 3:1." } },
-  { id:'s5', column:'published', priority:'medium', title:"Inter Miami First Season — Changing American Soccer", desc:"Messi's MLS debut: Leagues Cup glory, the ripple effect on US soccer culture, early-season goal run.", tags:['Inter Miami','Stats','Analysis'], metrics:{ views:31000, likes:2100, shares:890, notes:"Good reach in US audience. MLS fans were previously untapped segment." } },
-  { id:'s6', column:'progress', priority:'high', title:"Messi vs Ronaldo — The Definitive 25-Year Data Breakdown", desc:"Goals, assists, trophies, big-game performance, per-90 stats. Building the most complete comparison ever published.", tags:['Records','Analysis','Stats'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
-  { id:'s7', column:'draft', priority:'medium', title:"World Cup 2022 Qatar — Match by Match Breakdown", desc:"Every Messi performance from group stage to final. Goals, key moments, tactical observations, ratings.", tags:['WC 2022','Argentina','Analysis'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
-  { id:'s8', column:'ideas', priority:'medium', title:"Messi's Free Kick Technique — Visual Breakdown", desc:"Ball placement, run-up angle, body position. Frame-by-frame comparison across his best free kicks.", tags:['Goals','Technique','Analysis'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
-  { id:'s9', column:'ideas', priority:'low', title:"La Pulga Years — Interactive Barcelona Timeline", desc:"Visual timeline: every trophy, record, and milestone from 2003–2021. Big infographic piece.", tags:['Barcelona','Records'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
-  { id:'s10', column:'ideas', priority:'low', title:"Messi Dribbling Zones — StatsBomb Heat Map Analysis", desc:"Using public StatsBomb data to map where Messi dribbles, success rates per zone, evolution across seasons.", tags:['Stats','Tactical','Analysis'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
-  { id:'s11', column:'ideas', priority:'high', title:"2026 World Cup — Can Messi Win Back-to-Back?", desc:"Age projections, Argentina squad depth, bracket analysis. Is a 2nd World Cup trophy realistic?", tags:['Argentina','WC 2022','Analysis'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
-];
-
-function load() {
-  const raw = localStorage.getItem('messi-board-v2');
-  cards = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(SEED));
+function goSlide(idx) {
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = idx;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+  resetProgress();
 }
-function save() { localStorage.setItem('messi-board-v2', JSON.stringify(cards)); }
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function fmt(n) { if (!n) return '0'; if (n >= 1e6) return (n/1e6).toFixed(1)+'M'; if (n >= 1e3) return (n/1e3).toFixed(1)+'K'; return String(n); }
-function uid() { return 'c' + Date.now() + Math.random().toString(36).slice(2,6); }
 
-function renderBoard() {
-  const query = document.getElementById('searchInput').value.toLowerCase().trim();
-  const board  = document.getElementById('board');
-  board.innerHTML = '';
-  let total = 0;
+function nextSlide() { goSlide((current + 1) % slides.length); }
 
-  COLS.forEach(col => {
-    let colCards = cards.filter(c => c.column === col.id);
-    if (query) colCards = colCards.filter(c => c.title.toLowerCase().includes(query) || (c.desc||'').toLowerCase().includes(query) || (c.tags||[]).some(t => t.toLowerCase().includes(query)));
-    total += colCards.length;
-    const showMetrics = col.id === 'published' || col.id === 'archive';
-    const div = document.createElement('div');
-    div.className = 'col';
-    div.style.setProperty('--accent', col.accent);
-    div.dataset.col = col.id;
-    const cardHtml = colCards.length ? colCards.map(c => cardHTML(c, showMetrics, col.accent)).join('') : '<div class="empty">Drop cards here</div>';
-    div.innerHTML = `
-      <div class="col-head">
-        <span class="col-icon">${col.icon}</span>
-        <span class="col-label">${col.label}</span>
-        <span class="col-count">${colCards.length}</span>
-      </div>
-      <div class="col-body" id="colb-${col.id}" ondragover="onOver(event)" ondragleave="onLeave(event)" ondrop="onDrop(event,'${col.id}')">
-        ${cardHtml}
-      </div>
-      <div class="col-foot">
-        <button class="add-btn" onclick="openAdd('${col.id}')">+ Add card</button>
-      </div>`;
-    board.appendChild(div);
+function resetProgress() {
+  bar.style.transition = 'none';
+  bar.style.width = '0%';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      bar.style.transition = `width ${INTERVAL}ms linear`;
+      bar.style.width = '100%';
+    });
   });
-  document.getElementById('totalCards').textContent = total;
+  clearInterval(timer);
+  timer = setInterval(nextSlide, INTERVAL);
 }
 
-function cardHTML(c, showMetrics, accent) {
-  const hasM = showMetrics && (c.metrics.views || c.metrics.likes || c.metrics.shares);
-  const tagsHtml = (c.tags||[]).length ? `<div class="tags">${c.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>` : '';
-  return `
-    <div class="card" id="card-${c.id}" draggable="true" style="--accent:${accent}" ondragstart="onDragStart(event,'${c.id}','${c.column}')" ondragend="onDragEnd(event)">
-      <div class="card-top">
-        <div class="card-title">${esc(c.title)}</div>
-        <div class="priority-dot p-${c.priority||'none'}"></div>
-      </div>
-      ${c.desc ? `<div class="card-desc">${esc(c.desc)}</div>` : ''}
-      ${tagsHtml}
-      ${hasM ? `<div class="card-metrics"><span class="metric">👁 <span class="metric-val">${fmt(c.metrics.views)}</span></span><span class="metric">❤️ <span class="metric-val">${fmt(c.metrics.likes)}</span></span><span class="metric">↗ <span class="metric-val">${fmt(c.metrics.shares)}</span></span></div>` : ''}
-      <div class="card-actions">
-        <button class="card-btn" onclick="openEdit('${c.id}',event)">Edit</button>
-        <button class="card-btn del" onclick="delCard('${c.id}',event)">Delete</button>
-      </div>
-    </div>`;
+resetProgress();
+
+/* ── COUNT-UP ── */
+function countUp(el) {
+  const target = +el.dataset.target;
+  const duration = 1800;
+  const step = target / (duration / 16);
+  let val = 0;
+  const tick = () => {
+    val = Math.min(val + step, target);
+    el.textContent = Math.floor(val).toLocaleString();
+    if (val < target) requestAnimationFrame(tick);
+    else el.textContent = target.toLocaleString();
+  };
+  tick();
 }
 
-function onDragStart(e, id, col) { dragId = id; dragSrc = col; e.dataTransfer.effectAllowed = 'move'; setTimeout(() => { const el = document.getElementById('card-'+id); if(el) el.classList.add('dragging'); }, 0); }
-function onDragEnd(e) { document.querySelectorAll('.card').forEach(c => { c.classList.remove('dragging'); c.style.transform = ''; }); document.querySelectorAll('.col-body').forEach(b => b.classList.remove('drag-over')); dragId = dragSrc = null; }
-function onOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); e.dataTransfer.dropEffect = 'move'; }
-function onLeave(e) { if (!e.currentTarget.contains(e.relatedTarget)) e.currentTarget.classList.remove('drag-over'); }
-function onDrop(e, col) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); if (dragId && dragSrc !== col) { const card = cards.find(c => c.id === dragId); if (card) { card.column = col; save(); renderBoard(); } } }
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.count-up').forEach(countUp);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
 
-function openAdd(colId) {
-  activeTags = [];
-  ['fId','fTitle','fDesc','mViews','mLikes','mShares','mNotes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('fPriority').value = 'none';
-  document.getElementById('fColSel').value = colId;
-  const col = COLS.find(c => c.id === colId);
-  document.getElementById('mIcon').textContent = col.icon;
-  document.getElementById('mTitle').textContent = `Add to ${col.label}`;
-  renderTags(); renderHints();
-  document.getElementById('overlay').classList.add('open');
-  setTimeout(() => document.getElementById('fTitle').focus(), 60);
-}
+document.querySelector('.stats-bar') && observer.observe(document.querySelector('.stats-bar'));
 
-function openEdit(id, e) {
-  e && e.stopPropagation();
-  const c = cards.find(x => x.id === id);
-  if (!c) return;
-  activeTags = [...(c.tags||[])];
-  document.getElementById('fId').value = c.id;
-  document.getElementById('fTitle').value = c.title;
-  document.getElementById('fDesc').value = c.desc||'';
-  document.getElementById('fPriority').value = c.priority||'none';
-  document.getElementById('fColSel').value = c.column;
-  document.getElementById('mViews').value = c.metrics?.views||'';
-  document.getElementById('mLikes').value = c.metrics?.likes||'';
-  document.getElementById('mShares').value = c.metrics?.shares||'';
-  document.getElementById('mNotes').value = c.metrics?.notes||'';
-  const col = COLS.find(x => x.id === c.column);
-  document.getElementById('mIcon').textContent = col.icon;
-  document.getElementById('mTitle').textContent = 'Edit Card';
-  renderTags(); renderHints();
-  document.getElementById('overlay').classList.add('open');
-}
-
-function closeModal() { document.getElementById('overlay').classList.remove('open'); }
-
-function saveCard() {
-  const title = document.getElementById('fTitle').value.trim();
-  if (!title) { document.getElementById('fTitle').focus(); return; }
-  const id = document.getElementById('fId').value;
-  const data = { title, desc: document.getElementById('fDesc').value.trim(), priority: document.getElementById('fPriority').value, column: document.getElementById('fColSel').value, tags: [...activeTags], metrics: { views: parseInt(document.getElementById('mViews').value)||0, likes: parseInt(document.getElementById('mLikes').value)||0, shares: parseInt(document.getElementById('mShares').value)||0, notes: document.getElementById('mNotes').value.trim() } };
-  if (id) { const i = cards.findIndex(c => c.id === id); if (i !== -1) cards[i] = { ...cards[i], ...data }; }
-  else cards.push({ id: uid(), ...data });
-  save(); renderBoard(); closeModal();
-}
-
-function delCard(id, e) { e && e.stopPropagation(); cards = cards.filter(c => c.id !== id); save(); renderBoard(); }
-
-function renderTags() {
-  const box = document.getElementById('tagsBox');
-  const inp = document.getElementById('tagIn');
-  box.innerHTML = '';
-  activeTags.forEach(t => { const pill = document.createElement('span'); pill.className = 'tag-pill'; pill.innerHTML = `${esc(t)} <span class="tag-x" onclick="removeTag('${esc(t)}')">×</span>`; box.appendChild(pill); });
-  box.appendChild(inp);
-}
-function renderHints() { document.getElementById('tagHints').innerHTML = HINTS.map(h => `<button class="tag-hint" onclick="addTag('${esc(h)}')">${esc(h)}</button>`).join(''); }
-function addTag(t) { if (t && !activeTags.includes(t)) { activeTags.push(t); renderTags(); } }
-function removeTag(t) { activeTags = activeTags.filter(x => x !== t); renderTags(); }
-
-document.getElementById('tagIn').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); const v = this.value.replace(/,/g,'').trim(); if (v && !activeTags.includes(v)) activeTags.push(v); this.value = ''; renderTags(); }
-  if (e.key === 'Backspace' && !this.value && activeTags.length) { activeTags.pop(); renderTags(); }
+/* ── SMOOTH NAV ── */
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', function(e) {
+    document.querySelectorAll('.nav-links a').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+  });
 });
-document.getElementById('overlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-load();
-renderBoard();
+/* ── NAV ACTIVE ON SCROLL ── */
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY + 100;
+  sections.forEach(sec => {
+    if (scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight) {
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + sec.id);
+      });
+    }
+  });
+}, { passive: true });
 </script>
 </body>
 </html>
