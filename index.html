@@ -4,24 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Messi Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root {
-  --bg:         #060912;
-  --card:       rgba(10,13,26,0.60);
-  --card-hover: rgba(14,18,34,0.80);
-  --border:     rgba(255,255,255,0.07);
-  --border-hi:  rgba(255,255,255,0.14);
-  --text:       #e8eaf6;
-  --muted:      #636888;
-  --dim:        #2c3150;
-  --gold:       #f0c040;
-  --blue:       #74acdf;
-  --green:      #4caf7d;
-  --red:        #e05c5c;
-  --orange:     #f0924a;
-  --purple:     #9b7fe8;
+  --bg:       #f0ede6;
+  --surface:  #ffffff;
+  --text:     #0d0d0d;
+  --muted:    #888880;
+  --border:   #dddad2;
+  --border-hi:#b8b4aa;
+  --gold:     #c8920a;
+  --gold-bg:  #fdf3dc;
+  --blue:     #1a5fa8;
+  --green:    #1e7a4a;
+  --red:      #c0392b;
+  --orange:   #d45f0a;
+  --purple:   #6b46c1;
+  --dim:      #ccc9c0;
 }
 
 html { height: 100%; }
@@ -29,268 +32,184 @@ html { height: 100%; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Outfit', sans-serif;
   min-height: 100vh;
   overflow-x: auto;
 }
 
-/* ── BACKGROUND LAYERS ──────────────────── */
-.bg-ambient {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-.bg-ambient::before {
-  content: '';
-  position: absolute;
-  width: 900px; height: 900px;
-  background: radial-gradient(circle, rgba(116,172,223,0.055) 0%, transparent 65%);
-  top: -280px; left: -280px;
-  border-radius: 50%;
-  animation: drift1 18s ease-in-out infinite alternate;
-}
-.bg-ambient::after {
-  content: '';
-  position: absolute;
-  width: 700px; height: 700px;
-  background: radial-gradient(circle, rgba(155,127,232,0.045) 0%, transparent 65%);
-  bottom: -200px; right: -160px;
-  border-radius: 50%;
-  animation: drift2 22s ease-in-out infinite alternate;
-}
-
-@keyframes drift1 { to { transform: translate(40px, 30px); } }
-@keyframes drift2 { to { transform: translate(-30px, -40px); } }
-
-.bg-grid {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
-  background-size: 44px 44px;
-}
-
-.bg-noise {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.038;
-  background-image: url("data:image/svg+xml,<svg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  background-size: 140px 140px;
-}
-
-.spotlight {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  background: radial-gradient(
-    700px circle at var(--mx, -200px) var(--my, -200px),
-    rgba(116,172,223,0.038) 0%,
-    transparent 70%
-  );
-}
-
 /* ── HEADER ─────────────────────────────── */
 .header {
-  background: rgba(5,8,16,0.82);
-  border-bottom: 1px solid var(--border);
-  padding: 0 28px;
+  background: #0d0d0d;
+  border-bottom: 1px solid #1e1e1e;
+  padding: 0 36px;
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
 }
 
 .header-top {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 18px 0 12px;
+  gap: 20px;
+  padding: 20px 0 16px;
 }
 
-.logo { display: flex; align-items: center; gap: 12px; }
+.logo { display: flex; align-items: center; gap: 14px; }
 
 .logo-badge {
-  width: 44px; height: 44px;
-  background: linear-gradient(135deg, rgba(116,172,223,0.18), rgba(116,172,223,0.04));
-  border: 1px solid rgba(116,172,223,0.28);
-  border-radius: 12px;
+  width: 42px; height: 42px;
+  background: var(--gold);
+  border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
   font-size: 22px;
-  box-shadow: 0 0 24px rgba(116,172,223,0.1), inset 0 1px 0 rgba(255,255,255,0.12);
+  flex-shrink: 0;
+  color: #0d0d0d;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
 }
 
 .logo-text { display: flex; flex-direction: column; }
 
 .logo-title {
-  font-size: 20px;
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.5px;
-  color: #fff;
-  line-height: 1.1;
+  color: #ffffff;
+  line-height: 1;
 }
 .logo-title em { color: var(--gold); font-style: normal; }
 
 .logo-sub {
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.4px;
-  margin-top: 2px;
+  font-size: 10px;
+  color: #555;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 3px;
+  font-weight: 500;
 }
 
 .header-right {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .filter-wrap {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 7px 12px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  gap: 8px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+  padding: 8px 14px;
+  transition: border-color 0.2s;
 }
-.filter-wrap:focus-within {
-  border-color: rgba(116,172,223,0.4);
-  box-shadow: 0 0 0 3px rgba(116,172,223,0.08);
-}
+.filter-wrap:focus-within { border-color: var(--gold); }
 .filter-wrap input {
   background: none; border: none; outline: none;
-  color: var(--text); font-size: 12px; width: 140px;
-  font-family: inherit;
+  color: #e0e0e0; font-size: 12px; width: 160px;
+  font-family: 'Outfit', sans-serif; font-weight: 400;
+  letter-spacing: 0.3px;
 }
-.filter-wrap input::placeholder { color: var(--muted); }
+.filter-wrap input::placeholder { color: #444; }
 
 .stats-bar {
   display: flex;
   gap: 0;
-  padding: 10px 0 14px;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 12px 0 16px;
+  border-top: 1px solid #1e1e1e;
   overflow-x: auto;
 }
 
 .stat {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 20px 0 0;
-  margin-right: 20px;
-  border-right: 1px solid var(--border);
+  gap: 10px;
+  padding: 0 28px 0 0;
+  margin-right: 28px;
+  border-right: 1px solid #222;
 }
 .stat:last-child { border-right: none; }
-.stat-icon { font-size: 14px; }
+.stat-icon { font-size: 13px; opacity: 0.8; }
 .stat-info { display: flex; flex-direction: column; }
 
 .stat-val {
-  font-size: 15px;
-  font-weight: 800;
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--gold);
   line-height: 1;
+  letter-spacing: -0.3px;
 }
 .stat-lbl {
-  font-size: 10px;
-  color: var(--muted);
+  font-size: 9px;
+  color: #444;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-top: 2px;
+  letter-spacing: 1px;
+  margin-top: 3px;
   white-space: nowrap;
+  font-weight: 600;
 }
 
 /* ── BOARD ──────────────────────────────── */
 .board {
   display: flex;
-  gap: 14px;
-  padding: 24px 28px 60px;
+  gap: 12px;
+  padding: 28px 36px 60px;
   align-items: flex-start;
-  min-height: calc(100vh - 130px);
-  position: relative;
-  z-index: 10;
+  min-height: calc(100vh - 140px);
 }
 
 /* ── COLUMN ─────────────────────────────── */
 .col {
-  width: 276px;
-  min-width: 276px;
-  background: rgba(255,255,255,0.022);
+  width: 280px;
+  min-width: 280px;
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 2px;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 168px);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  box-shadow:
-    0 4px 32px rgba(0,0,0,0.45),
-    inset 0 1px 0 rgba(255,255,255,0.055);
+  max-height: calc(100vh - 180px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   overflow: hidden;
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.2s, border-color 0.2s;
 }
-
 .col:hover {
-  box-shadow:
-    0 8px 48px rgba(0,0,0,0.55),
-    0 0 0 1px rgba(255,255,255,0.08),
-    inset 0 1px 0 rgba(255,255,255,0.07);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border-color: var(--border-hi);
 }
 
 .col-head {
-  padding: 14px 16px 12px;
-  border-bottom: 1px solid var(--border);
+  padding: 14px 16px 13px;
+  border-bottom: 2px solid var(--accent, #0d0d0d);
   display: flex;
   align-items: center;
-  gap: 8px;
-  position: relative;
-  overflow: hidden;
+  gap: 10px;
+  background: var(--surface);
 }
 
-.col-head::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--accent);
-  opacity: 0.07;
-}
-.col-head::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--accent) 25%, var(--accent) 75%, transparent 100%);
-  opacity: 0.75;
-}
-
-.col-icon { font-size: 15px; position: relative; }
+.col-icon { font-size: 14px; }
 
 .col-label {
-  font-size: 10.5px;
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
   font-weight: 700;
   color: var(--text);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  position: relative;
+  letter-spacing: 1.5px;
 }
 
 .col-count {
   margin-left: auto;
-  background: rgba(255,255,255,0.06);
+  background: var(--bg);
   color: var(--muted);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   padding: 2px 8px;
-  border-radius: 20px;
-  position: relative;
+  border-radius: 2px;
+  font-family: 'Syne', sans-serif;
   border: 1px solid var(--border);
 }
 
@@ -300,108 +219,75 @@ body {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   min-height: 64px;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
+  background: #faf9f7;
 }
 .col-body::-webkit-scrollbar { width: 3px; }
-.col-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.col-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 1px; }
 
 .col-body.drag-over {
-  background: rgba(116,172,223,0.04);
-  border-radius: 10px;
-  outline: 1.5px dashed rgba(116,172,223,0.35);
+  background: #f5f2eb;
+  outline: 2px dashed var(--gold);
   outline-offset: -4px;
 }
 
 .col-foot {
   padding: 8px 10px 10px;
   border-top: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .add-btn {
   width: 100%;
   background: none;
-  border: 1px dashed rgba(255,255,255,0.1);
+  border: 1px dashed var(--border-hi);
   color: var(--muted);
   padding: 7px;
-  border-radius: 9px;
-  font-size: 12px;
-  font-family: inherit;
+  border-radius: 2px;
+  font-size: 11px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 6px;
+  text-transform: uppercase;
 }
 .add-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(255,255,255,0.025);
+  border-color: var(--text);
+  color: var(--text);
+  background: var(--bg);
 }
 
-/* ── CARD — Glassmorphism ───────────────── */
+/* ── CARD ───────────────────────────────── */
 .card {
-  background: var(--card);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 13px;
+  border-left: 3px solid var(--accent, #0d0d0d);
+  border-radius: 2px;
   padding: 13px 14px 12px;
   cursor: grab;
   user-select: none;
   position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  box-shadow:
-    0 2px 12px rgba(0,0,0,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.07);
-  transition: transform 0.18s cubic-bezier(.22,.68,0,1.2), box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-  transform-style: preserve-3d;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   will-change: transform;
 }
-
-/* Left accent glow stripe */
-.card::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 12%; bottom: 12%;
-  width: 2.5px;
-  background: linear-gradient(180deg, transparent, var(--accent) 30%, var(--accent) 70%, transparent);
-  border-radius: 0 2px 2px 0;
-  opacity: 0.9;
-}
-
-/* Mouse-tracked glare sheen */
-.card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 55% 40% at var(--cx, 50%) var(--cy, -10%),
-    rgba(255,255,255,0.075) 0%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  pointer-events: none;
-  border-radius: inherit;
-}
-.card:hover::after { opacity: 1; }
-
 .card:hover {
-  background: var(--card-hover);
-  border-color: rgba(255,255,255,0.11);
-  box-shadow:
-    0 10px 40px rgba(0,0,0,0.6),
-    0 0 0 1px rgba(255,255,255,0.1),
-    inset 0 1px 0 rgba(255,255,255,0.1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  border-color: var(--border-hi);
+  border-left-color: var(--accent, #0d0d0d);
+  transform: translateY(-1px);
 }
-
 .card.dragging {
-  opacity: 0.3;
-  transform: rotate(2.5deg) scale(0.95) !important;
+  opacity: 0.25;
+  transform: rotate(1.5deg) scale(0.97) !important;
   cursor: grabbing;
 }
 
@@ -413,33 +299,36 @@ body {
 }
 
 .card-title {
-  font-size: 13px;
-  font-weight: 600;
+  font-family: 'Syne', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
   color: var(--text);
   line-height: 1.45;
   flex: 1;
+  letter-spacing: -0.1px;
 }
 
 .priority-dot {
-  width: 7px; height: 7px;
+  width: 6px; height: 6px;
   border-radius: 50%;
-  margin-top: 4px;
+  margin-top: 5px;
   flex-shrink: 0;
 }
-.p-high   { background: var(--red);    box-shadow: 0 0 8px rgba(224,92,92,0.65); }
-.p-medium { background: var(--orange); box-shadow: 0 0 8px rgba(240,146,74,0.55); }
-.p-low    { background: var(--green);  box-shadow: 0 0 8px rgba(76,175,125,0.55); }
+.p-high   { background: var(--red); }
+.p-medium { background: var(--orange); }
+.p-low    { background: var(--green); }
 .p-none   { background: var(--dim); }
 
 .card-desc {
   font-size: 11.5px;
   color: var(--muted);
-  line-height: 1.55;
+  line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-bottom: 8px;
+  font-weight: 400;
 }
 
 .tags {
@@ -450,31 +339,40 @@ body {
 }
 
 .tag {
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  background: var(--bg);
+  border: 1px solid var(--border);
   color: var(--muted);
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: 'Outfit', sans-serif;
 }
 
 .card-metrics {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   padding-top: 8px;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid var(--border);
   margin-top: 2px;
 }
 
 .metric {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
   font-size: 10.5px;
   color: var(--muted);
+  font-weight: 500;
 }
-.metric-val { font-weight: 700; color: var(--gold); }
+.metric-val {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 11px;
+}
 
 .card-actions {
   display: none;
@@ -485,85 +383,88 @@ body {
 .card:hover .card-actions { display: flex; }
 
 .card-btn {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--bg);
+  border: 1px solid var(--border);
   color: var(--muted);
-  border-radius: 6px;
+  border-radius: 2px;
   padding: 3px 9px;
-  font-size: 10.5px;
-  font-family: inherit;
+  font-size: 9.5px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.15s;
-  backdrop-filter: blur(6px);
+  transition: all 0.12s;
 }
-.card-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
-.card-btn.del:hover { background: rgba(224,92,92,0.14); border-color: rgba(224,92,92,0.4); color: var(--red); }
+.card-btn:hover { background: var(--text); color: #fff; border-color: var(--text); }
+.card-btn.del:hover { background: var(--red); border-color: var(--red); color: #fff; }
 
-.empty { text-align: center; color: var(--dim); font-size: 12px; padding: 24px 0; }
+.empty { text-align: center; color: var(--dim); font-size: 11px; padding: 28px 0; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
 
 /* ── MODAL ──────────────────────────────── */
 .overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.78);
+  background: rgba(13,13,13,0.65);
   z-index: 500;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(4px);
 }
 .overlay.open { display: flex; }
 
 .modal {
-  background: rgba(8,11,22,0.88);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
   width: 500px;
   max-width: 96vw;
   max-height: 92vh;
   overflow-y: auto;
-  box-shadow:
-    0 40px 100px rgba(0,0,0,0.75),
-    0 0 0 1px rgba(255,255,255,0.05),
-    inset 0 1px 0 rgba(255,255,255,0.1);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.2);
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
-  backdrop-filter: blur(36px) saturate(200%);
-  -webkit-backdrop-filter: blur(36px) saturate(200%);
 }
 
 .modal-head {
-  padding: 20px 22px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(255,255,255,0.02);
-  border-radius: 20px 20px 0 0;
+  background: #0d0d0d;
 }
 
-.modal-icon { font-size: 20px; }
-.modal-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.modal-icon { font-size: 18px; }
+.modal-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
 .modal-x {
   margin-left: auto;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: var(--muted);
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #888;
   width: 28px; height: 28px;
-  border-radius: 8px;
+  border-radius: 2px;
   cursor: pointer;
   font-size: 17px;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s;
+  transition: all 0.12s;
 }
-.modal-x:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+.modal-x:hover { background: #2a2a2a; color: #fff; }
 
 .modal-body {
-  padding: 18px 22px;
+  padding: 20px 24px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -572,38 +473,41 @@ body {
 .fgroup { display: flex; flex-direction: column; gap: 5px; }
 
 .flabel {
-  font-size: 10.5px;
+  font-size: 9px;
   font-weight: 700;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.6px;
+  letter-spacing: 1.2px;
+  font-family: 'Outfit', sans-serif;
 }
 
 .finput, .ftextarea, .fselect {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--bg);
+  border: 1px solid var(--border);
   color: var(--text);
-  border-radius: 10px;
+  border-radius: 2px;
   padding: 9px 12px;
   font-size: 13px;
-  font-family: inherit;
+  font-family: 'Outfit', sans-serif;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.15s, box-shadow 0.15s;
   width: 100%;
+  font-weight: 400;
 }
 .finput:focus, .ftextarea:focus, .fselect:focus {
-  border-color: rgba(116,172,223,0.5);
-  box-shadow: 0 0 0 3px rgba(116,172,223,0.08);
+  border-color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(13,13,13,0.06);
 }
 .ftextarea { resize: vertical; min-height: 72px; }
-.fselect option { background: #0c0f1e; }
+.fselect option { background: var(--surface); }
 
 .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
 .tags-box {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
   padding: 7px 8px;
   display: flex;
   flex-wrap: wrap;
@@ -611,60 +515,66 @@ body {
   min-height: 42px;
   align-items: center;
   cursor: text;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.15s;
 }
 .tags-box:focus-within {
-  border-color: rgba(116,172,223,0.5);
-  box-shadow: 0 0 0 3px rgba(116,172,223,0.08);
+  border-color: var(--text);
+  background: var(--surface);
 }
 
 .tag-pill {
-  background: rgba(116,172,223,0.1);
-  border: 1px solid rgba(116,172,223,0.25);
-  color: var(--blue);
-  font-size: 11px;
+  background: #0d0d0d;
+  color: #fff;
+  font-size: 10px;
   padding: 2px 8px;
-  border-radius: 20px;
+  border-radius: 2px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  font-family: 'Outfit', sans-serif;
 }
-.tag-x { cursor: pointer; opacity: 0.7; line-height: 1; font-size: 13px; }
+.tag-x { cursor: pointer; opacity: 0.6; line-height: 1; font-size: 13px; }
 .tag-x:hover { opacity: 1; }
 
 .tag-raw {
   background: none; border: none; outline: none;
   color: var(--text); font-size: 12px;
-  font-family: inherit; flex: 1; min-width: 80px;
+  font-family: 'Outfit', sans-serif; flex: 1; min-width: 80px;
 }
 
 .tag-hints { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
 
 .tag-hint {
-  font-size: 10px;
+  font-size: 9px;
   padding: 2px 8px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.08);
-  color: var(--dim);
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  color: var(--muted);
   cursor: pointer;
   background: none;
-  font-family: inherit;
-  transition: all 0.15s;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  transition: all 0.12s;
 }
-.tag-hint:hover { border-color: rgba(116,172,223,0.4); color: var(--blue); }
+.tag-hint:hover { border-color: var(--text); color: var(--text); background: var(--bg); }
 
 .metrics-box {
-  background: rgba(240,192,64,0.04);
-  border: 1px solid rgba(240,192,64,0.14);
-  border-radius: 12px;
+  background: var(--gold-bg);
+  border: 1px solid #e8d08a;
+  border-radius: 2px;
   padding: 14px;
 }
 .metrics-head {
-  font-size: 11px;
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
   font-weight: 700;
   color: var(--gold);
   text-transform: uppercase;
-  letter-spacing: 0.6px;
+  letter-spacing: 1px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
@@ -677,90 +587,80 @@ body {
   margin-bottom: 10px;
 }
 .m-wrap { display: flex; flex-direction: column; gap: 4px; }
-.m-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+.m-lbl { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; font-family: 'Outfit', sans-serif; }
 .m-input {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--surface);
+  border: 1px solid #e8d08a;
   color: var(--text);
-  border-radius: 8px;
+  border-radius: 2px;
   padding: 6px 9px;
   font-size: 12px;
-  font-family: inherit;
+  font-family: 'Outfit', sans-serif;
   outline: none;
   width: 100%;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.12s;
 }
-.m-input:focus {
-  border-color: rgba(240,192,64,0.45);
-  box-shadow: 0 0 0 3px rgba(240,192,64,0.07);
-}
+.m-input:focus { border-color: var(--gold); }
 
 .modal-foot {
-  padding: 12px 22px 18px;
-  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 12px 24px 18px;
+  border-top: 1px solid var(--border);
   display: flex;
   gap: 8px;
   justify-content: flex-end;
-  background: rgba(255,255,255,0.015);
-  border-radius: 0 0 20px 20px;
+  background: var(--bg);
 }
 
 .btn {
-  padding: 9px 20px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
+  padding: 9px 22px;
+  border-radius: 2px;
+  font-size: 11px;
+  font-weight: 700;
   cursor: pointer;
   border: 1px solid transparent;
-  font-family: inherit;
+  font-family: 'Outfit', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
   transition: all 0.15s;
 }
 .btn-ghost {
-  background: rgba(255,255,255,0.05);
-  border-color: rgba(255,255,255,0.1);
+  background: var(--surface);
+  border-color: var(--border);
   color: var(--muted);
 }
-.btn-ghost:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+.btn-ghost:hover { background: var(--bg); border-color: var(--border-hi); color: var(--text); }
 
 .btn-primary {
-  background: linear-gradient(135deg, rgba(116,172,223,0.92), rgba(85,135,195,0.92));
-  color: #05101e;
-  font-weight: 800;
-  border-color: rgba(116,172,223,0.5);
-  box-shadow: 0 4px 18px rgba(116,172,223,0.22);
+  background: #0d0d0d;
+  color: #ffffff;
+  border-color: #0d0d0d;
 }
 .btn-primary:hover {
-  background: linear-gradient(135deg, rgba(145,198,248,0.96), rgba(116,172,223,0.96));
-  box-shadow: 0 6px 24px rgba(116,172,223,0.32);
-  transform: translateY(-1px);
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #0d0d0d;
 }
 
-::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 1px; }
 </style>
 </head>
 <body>
 
-<!-- ── BACKGROUND ── -->
-<div class="bg-ambient"></div>
-<div class="bg-grid"></div>
-<div class="bg-noise"></div>
-<div class="spotlight" id="spotlight"></div>
-
 <!-- ── HEADER ── -->
-<header class="header" style="position:sticky;top:0;z-index:100">
+<header class="header">
   <div class="header-top">
     <div class="logo">
-      <div class="logo-badge">👑</div>
+      <div class="logo-badge">★</div>
       <div class="logo-text">
         <div class="logo-title">Messi <em>Board</em></div>
-        <div class="logo-sub">Content Tracker · Lionel Messi #10 · La Pulga</div>
+        <div class="logo-sub">Content Tracker · La Pulga · #10</div>
       </div>
     </div>
     <div class="header-right">
       <div class="filter-wrap">
-        <span style="color:var(--muted);font-size:13px">🔍</span>
+        <span style="color:#444;font-size:12px">⌕</span>
         <input type="text" id="searchInput" placeholder="Filter cards..." oninput="renderBoard()">
       </div>
     </div>
@@ -791,7 +691,7 @@ body {
       <div class="stat-info"><span class="stat-val">106</span><span class="stat-lbl">Intl Goals</span></div>
     </div>
     <div class="stat">
-      <span class="stat-icon">📆</span>
+      <span class="stat-icon">▦</span>
       <div class="stat-info"><span class="stat-val" id="totalCards">0</span><span class="stat-lbl">Total Cards</span></div>
     </div>
   </div>
@@ -853,7 +753,7 @@ body {
       </div>
 
       <div class="metrics-box">
-        <div class="metrics-head">📊 Performance Metrics <span style="color:var(--muted);font-weight:400;font-size:10px">(for Published &amp; Archive)</span></div>
+        <div class="metrics-head">📊 Performance Metrics <span style="color:var(--muted);font-weight:400;font-size:9px;letter-spacing:0">(Published &amp; Archive)</span></div>
         <div class="metrics-grid">
           <div class="m-wrap"><div class="m-lbl">👁 Views</div><input class="m-input" id="mViews" type="number" placeholder="0"></div>
           <div class="m-wrap"><div class="m-lbl">❤️ Likes</div><input class="m-input" id="mLikes" type="number" placeholder="0"></div>
@@ -872,204 +772,90 @@ body {
 </div>
 
 <script>
-// ── CONFIG ────────────────────────────────
 const COLS = [
-  { id:'ideas',     icon:'💡', label:'Ideas',       accent:'#74acdf' },
-  { id:'draft',     icon:'📝', label:'Drafting',     accent:'#9b7fe8' },
-  { id:'progress',  icon:'🔥', label:'In Progress',  accent:'#f0924a' },
-  { id:'published', icon:'✅', label:'Published',    accent:'#4caf7d' },
-  { id:'archive',   icon:'📊', label:'Archive',      accent:'#f0c040' },
+  { id:'ideas',     icon:'💡', label:'Ideas',       accent:'#1a5fa8' },
+  { id:'draft',     icon:'📝', label:'Drafting',     accent:'#6b46c1' },
+  { id:'progress',  icon:'🔥', label:'In Progress',  accent:'#d45f0a' },
+  { id:'published', icon:'✅', label:'Published',    accent:'#1e7a4a' },
+  { id:'archive',   icon:'📊', label:'Archive',      accent:'#c8920a' },
 ];
 
 const HINTS = ['Goals','Assists','Records','Barcelona','Argentina','PSG','Inter Miami',
                'Champions League','WC 2022','La Liga','Analysis','Stats','Personal','Technique','Tactical'];
 
-// ── STATE ─────────────────────────────────
 let cards = [];
 let activeTags = [];
 let dragId = null;
 let dragSrc = null;
 
-// ── SEED DATA ─────────────────────────────
 const SEED = [
-  {
-    id:'s1', column:'archive', priority:'high',
-    title:"Messi's 2021 Copa America Victory",
-    desc:"Argentina finally breaks the curse. Messi's first major international trophy. Emotional final vs Brazil at Maracanã.",
-    tags:['Argentina','Records','Personal'],
-    metrics:{ views:142000, likes:8900, shares:3200, notes:"Best performing piece of the year. Video format worked extremely well. Comments were gold." }
-  },
-  {
-    id:'s2', column:'archive', priority:'medium',
-    title:"Barcelona Farewell — End of an Era",
-    desc:"Messi's tearful goodbye to Camp Nou. 21 years, 672 goals, 10 La Liga titles. Covered the emotional angle + raw stats.",
-    tags:['Barcelona','Records','Personal'],
-    metrics:{ views:89000, likes:6100, shares:2100, notes:"Strong emotional resonance. The stat summary thread got 2.1K shares standalone." }
-  },
-  {
-    id:'s3', column:'archive', priority:'low',
-    title:"Messi at PSG — Disappointing Chapter",
-    desc:"Why Paris never quite worked. Tactical misfit, off-pitch issues, the league gap. Honest post-mortem.",
-    tags:['PSG','Analysis','Stats'],
-    metrics:{ views:41000, likes:2300, shares:780, notes:"Lower engagement — negative framing may have hurt. Reached PSG-critical audience well." }
-  },
-  {
-    id:'s4', column:'published', priority:'high',
-    title:"Messi's 8th Ballon d'Or — The GOAT Is Settled",
-    desc:"Breaking down why the 8th Ballon d'Or cements Messi's status. Head-to-head comparison with all competitors' seasons.",
-    tags:['Records','Analysis','Stats'],
-    metrics:{ views:54000, likes:4200, shares:1800, notes:"Still growing organically. Thread outperformed the long-form article 3:1." }
-  },
-  {
-    id:'s5', column:'published', priority:'medium',
-    title:"Inter Miami First Season — Changing American Soccer",
-    desc:"Messi's MLS debut: Leagues Cup glory, the ripple effect on US soccer culture, early-season goal run.",
-    tags:['Inter Miami','Stats','Analysis'],
-    metrics:{ views:31000, likes:2100, shares:890, notes:"Good reach in US audience. MLS fans were previously untapped segment." }
-  },
-  {
-    id:'s6', column:'progress', priority:'high',
-    title:"Messi vs Ronaldo — The Definitive 25-Year Data Breakdown",
-    desc:"Goals, assists, trophies, big-game performance, per-90 stats. Building the most complete comparison ever published.",
-    tags:['Records','Analysis','Stats'],
-    metrics:{ views:0, likes:0, shares:0, notes:'' }
-  },
-  {
-    id:'s7', column:'draft', priority:'medium',
-    title:"World Cup 2022 Qatar — Match by Match Breakdown",
-    desc:"Every Messi performance from group stage to final. Goals, key moments, tactical observations, ratings.",
-    tags:['WC 2022','Argentina','Analysis'],
-    metrics:{ views:0, likes:0, shares:0, notes:'' }
-  },
-  {
-    id:'s8', column:'ideas', priority:'medium',
-    title:"Messi's Free Kick Technique — Visual Breakdown",
-    desc:"Ball placement, run-up angle, body position. Frame-by-frame comparison across his best free kicks.",
-    tags:['Goals','Technique','Analysis'],
-    metrics:{ views:0, likes:0, shares:0, notes:'' }
-  },
-  {
-    id:'s9', column:'ideas', priority:'low',
-    title:"La Pulga Years — Interactive Barcelona Timeline",
-    desc:"Visual timeline: every trophy, record, and milestone from 2003–2021. Big infographic piece.",
-    tags:['Barcelona','Records'],
-    metrics:{ views:0, likes:0, shares:0, notes:'' }
-  },
-  {
-    id:'s10', column:'ideas', priority:'low',
-    title:"Messi Dribbling Zones — StatsBomb Heat Map Analysis",
-    desc:"Using public StatsBomb data to map where Messi dribbles, success rates per zone, evolution across seasons.",
-    tags:['Stats','Tactical','Analysis'],
-    metrics:{ views:0, likes:0, shares:0, notes:'' }
-  },
-  {
-    id:'s11', column:'ideas', priority:'high',
-    title:"2026 World Cup — Can Messi Win Back-to-Back?",
-    desc:"Age projections, Argentina squad depth, bracket analysis. Is a 2nd World Cup trophy realistic?",
-    tags:['Argentina','WC 2022','Analysis'],
-    metrics:{ views:0, likes:0, shares:0, notes:'' }
-  },
+  { id:'s1', column:'archive', priority:'high', title:"Messi's 2021 Copa America Victory", desc:"Argentina finally breaks the curse. Messi's first major international trophy. Emotional final vs Brazil at Maracanã.", tags:['Argentina','Records','Personal'], metrics:{ views:142000, likes:8900, shares:3200, notes:"Best performing piece of the year. Video format worked extremely well." } },
+  { id:'s2', column:'archive', priority:'medium', title:"Barcelona Farewell — End of an Era", desc:"Messi's tearful goodbye to Camp Nou. 21 years, 672 goals, 10 La Liga titles. Covered the emotional angle + raw stats.", tags:['Barcelona','Records','Personal'], metrics:{ views:89000, likes:6100, shares:2100, notes:"Strong emotional resonance. The stat summary thread got 2.1K shares standalone." } },
+  { id:'s3', column:'archive', priority:'low', title:"Messi at PSG — Disappointing Chapter", desc:"Why Paris never quite worked. Tactical misfit, off-pitch issues, the league gap. Honest post-mortem.", tags:['PSG','Analysis','Stats'], metrics:{ views:41000, likes:2300, shares:780, notes:"Lower engagement — negative framing may have hurt." } },
+  { id:'s4', column:'published', priority:'high', title:"Messi's 8th Ballon d'Or — The GOAT Is Settled", desc:"Breaking down why the 8th Ballon d'Or cements Messi's status. Head-to-head comparison with all competitors' seasons.", tags:['Records','Analysis','Stats'], metrics:{ views:54000, likes:4200, shares:1800, notes:"Still growing organically. Thread outperformed the long-form article 3:1." } },
+  { id:'s5', column:'published', priority:'medium', title:"Inter Miami First Season — Changing American Soccer", desc:"Messi's MLS debut: Leagues Cup glory, the ripple effect on US soccer culture, early-season goal run.", tags:['Inter Miami','Stats','Analysis'], metrics:{ views:31000, likes:2100, shares:890, notes:"Good reach in US audience. MLS fans were previously untapped segment." } },
+  { id:'s6', column:'progress', priority:'high', title:"Messi vs Ronaldo — The Definitive 25-Year Data Breakdown", desc:"Goals, assists, trophies, big-game performance, per-90 stats. Building the most complete comparison ever published.", tags:['Records','Analysis','Stats'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
+  { id:'s7', column:'draft', priority:'medium', title:"World Cup 2022 Qatar — Match by Match Breakdown", desc:"Every Messi performance from group stage to final. Goals, key moments, tactical observations, ratings.", tags:['WC 2022','Argentina','Analysis'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
+  { id:'s8', column:'ideas', priority:'medium', title:"Messi's Free Kick Technique — Visual Breakdown", desc:"Ball placement, run-up angle, body position. Frame-by-frame comparison across his best free kicks.", tags:['Goals','Technique','Analysis'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
+  { id:'s9', column:'ideas', priority:'low', title:"La Pulga Years — Interactive Barcelona Timeline", desc:"Visual timeline: every trophy, record, and milestone from 2003–2021. Big infographic piece.", tags:['Barcelona','Records'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
+  { id:'s10', column:'ideas', priority:'low', title:"Messi Dribbling Zones — StatsBomb Heat Map Analysis", desc:"Using public StatsBomb data to map where Messi dribbles, success rates per zone, evolution across seasons.", tags:['Stats','Tactical','Analysis'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
+  { id:'s11', column:'ideas', priority:'high', title:"2026 World Cup — Can Messi Win Back-to-Back?", desc:"Age projections, Argentina squad depth, bracket analysis. Is a 2nd World Cup trophy realistic?", tags:['Argentina','WC 2022','Analysis'], metrics:{ views:0, likes:0, shares:0, notes:'' } },
 ];
 
-// ── STORAGE ───────────────────────────────
 function load() {
   const raw = localStorage.getItem('messi-board-v2');
   cards = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(SEED));
 }
-
-function save() {
-  localStorage.setItem('messi-board-v2', JSON.stringify(cards));
-}
-
-// ── UTILS ─────────────────────────────────
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function fmt(n) {
-  if (!n) return '0';
-  if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
-  if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
-  return String(n);
-}
-
+function save() { localStorage.setItem('messi-board-v2', JSON.stringify(cards)); }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmt(n) { if (!n) return '0'; if (n >= 1e6) return (n/1e6).toFixed(1)+'M'; if (n >= 1e3) return (n/1e3).toFixed(1)+'K'; return String(n); }
 function uid() { return 'c' + Date.now() + Math.random().toString(36).slice(2,6); }
 
-// ── RENDER ────────────────────────────────
 function renderBoard() {
   const query = document.getElementById('searchInput').value.toLowerCase().trim();
   const board  = document.getElementById('board');
   board.innerHTML = '';
-
   let total = 0;
 
   COLS.forEach(col => {
     let colCards = cards.filter(c => c.column === col.id);
-
-    if (query) {
-      colCards = colCards.filter(c =>
-        c.title.toLowerCase().includes(query) ||
-        (c.desc||'').toLowerCase().includes(query) ||
-        (c.tags||[]).some(t => t.toLowerCase().includes(query))
-      );
-    }
-
+    if (query) colCards = colCards.filter(c => c.title.toLowerCase().includes(query) || (c.desc||'').toLowerCase().includes(query) || (c.tags||[]).some(t => t.toLowerCase().includes(query)));
     total += colCards.length;
-
     const showMetrics = col.id === 'published' || col.id === 'archive';
     const div = document.createElement('div');
     div.className = 'col';
     div.style.setProperty('--accent', col.accent);
     div.dataset.col = col.id;
-
-    const cardHtml = colCards.length
-      ? colCards.map(c => cardHTML(c, showMetrics)).join('')
-      : '<div class="empty">Drop cards here</div>';
-
+    const cardHtml = colCards.length ? colCards.map(c => cardHTML(c, showMetrics, col.accent)).join('') : '<div class="empty">Drop cards here</div>';
     div.innerHTML = `
       <div class="col-head">
         <span class="col-icon">${col.icon}</span>
         <span class="col-label">${col.label}</span>
         <span class="col-count">${colCards.length}</span>
       </div>
-      <div class="col-body" id="colb-${col.id}"
-        ondragover="onOver(event)"
-        ondragleave="onLeave(event)"
-        ondrop="onDrop(event,'${col.id}')">
+      <div class="col-body" id="colb-${col.id}" ondragover="onOver(event)" ondragleave="onLeave(event)" ondrop="onDrop(event,'${col.id}')">
         ${cardHtml}
       </div>
       <div class="col-foot">
         <button class="add-btn" onclick="openAdd('${col.id}')">+ Add card</button>
-      </div>
-    `;
+      </div>`;
     board.appendChild(div);
   });
-
   document.getElementById('totalCards').textContent = total;
 }
 
-function cardHTML(c, showMetrics) {
+function cardHTML(c, showMetrics, accent) {
   const hasM = showMetrics && (c.metrics.views || c.metrics.likes || c.metrics.shares);
-  const tagsHtml = (c.tags||[]).length
-    ? `<div class="tags">${c.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>` : '';
-
+  const tagsHtml = (c.tags||[]).length ? `<div class="tags">${c.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>` : '';
   return `
-    <div class="card" id="card-${c.id}" draggable="true"
-      style="--accent:var(--accent)"
-      ondragstart="onDragStart(event,'${c.id}','${c.column}')"
-      ondragend="onDragEnd(event)">
+    <div class="card" id="card-${c.id}" draggable="true" style="--accent:${accent}" ondragstart="onDragStart(event,'${c.id}','${c.column}')" ondragend="onDragEnd(event)">
       <div class="card-top">
         <div class="card-title">${esc(c.title)}</div>
         <div class="priority-dot p-${c.priority||'none'}"></div>
       </div>
       ${c.desc ? `<div class="card-desc">${esc(c.desc)}</div>` : ''}
       ${tagsHtml}
-      ${hasM ? `
-        <div class="card-metrics">
-          <span class="metric">👁 <span class="metric-val">${fmt(c.metrics.views)}</span></span>
-          <span class="metric">❤️ <span class="metric-val">${fmt(c.metrics.likes)}</span></span>
-          <span class="metric">↗ <span class="metric-val">${fmt(c.metrics.shares)}</span></span>
-        </div>` : ''}
+      ${hasM ? `<div class="card-metrics"><span class="metric">👁 <span class="metric-val">${fmt(c.metrics.views)}</span></span><span class="metric">❤️ <span class="metric-val">${fmt(c.metrics.likes)}</span></span><span class="metric">↗ <span class="metric-val">${fmt(c.metrics.shares)}</span></span></div>` : ''}
       <div class="card-actions">
         <button class="card-btn" onclick="openEdit('${c.id}',event)">Edit</button>
         <button class="card-btn del" onclick="delCard('${c.id}',event)">Delete</button>
@@ -1077,50 +863,17 @@ function cardHTML(c, showMetrics) {
     </div>`;
 }
 
-// ── DRAG & DROP ───────────────────────────
-function onDragStart(e, id, col) {
-  dragId = id; dragSrc = col;
-  e.dataTransfer.effectAllowed = 'move';
-  setTimeout(() => { const el = document.getElementById('card-'+id); if(el) el.classList.add('dragging'); }, 0);
-}
+function onDragStart(e, id, col) { dragId = id; dragSrc = col; e.dataTransfer.effectAllowed = 'move'; setTimeout(() => { const el = document.getElementById('card-'+id); if(el) el.classList.add('dragging'); }, 0); }
+function onDragEnd(e) { document.querySelectorAll('.card').forEach(c => { c.classList.remove('dragging'); c.style.transform = ''; }); document.querySelectorAll('.col-body').forEach(b => b.classList.remove('drag-over')); dragId = dragSrc = null; }
+function onOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); e.dataTransfer.dropEffect = 'move'; }
+function onLeave(e) { if (!e.currentTarget.contains(e.relatedTarget)) e.currentTarget.classList.remove('drag-over'); }
+function onDrop(e, col) { e.preventDefault(); e.currentTarget.classList.remove('drag-over'); if (dragId && dragSrc !== col) { const card = cards.find(c => c.id === dragId); if (card) { card.column = col; save(); renderBoard(); } } }
 
-function onDragEnd(e) {
-  document.querySelectorAll('.card').forEach(c => { c.classList.remove('dragging'); c.style.transform = ''; });
-  document.querySelectorAll('.col-body').forEach(b => b.classList.remove('drag-over'));
-  dragId = dragSrc = null;
-}
-
-function onOver(e) {
-  e.preventDefault();
-  e.currentTarget.classList.add('drag-over');
-  e.dataTransfer.dropEffect = 'move';
-}
-
-function onLeave(e) {
-  if (!e.currentTarget.contains(e.relatedTarget)) e.currentTarget.classList.remove('drag-over');
-}
-
-function onDrop(e, col) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('drag-over');
-  if (dragId && dragSrc !== col) {
-    const card = cards.find(c => c.id === dragId);
-    if (card) { card.column = col; save(); renderBoard(); }
-  }
-}
-
-// ── MODAL ─────────────────────────────────
 function openAdd(colId) {
   activeTags = [];
-  document.getElementById('fId').value = '';
-  document.getElementById('fTitle').value = '';
-  document.getElementById('fDesc').value = '';
+  ['fId','fTitle','fDesc','mViews','mLikes','mShares','mNotes'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('fPriority').value = 'none';
   document.getElementById('fColSel').value = colId;
-  document.getElementById('mViews').value = '';
-  document.getElementById('mLikes').value = '';
-  document.getElementById('mShares').value = '';
-  document.getElementById('mNotes').value = '';
   const col = COLS.find(c => c.id === colId);
   document.getElementById('mIcon').textContent = col.icon;
   document.getElementById('mTitle').textContent = `Add to ${col.label}`;
@@ -1156,122 +909,32 @@ function saveCard() {
   const title = document.getElementById('fTitle').value.trim();
   if (!title) { document.getElementById('fTitle').focus(); return; }
   const id = document.getElementById('fId').value;
-  const data = {
-    title,
-    desc: document.getElementById('fDesc').value.trim(),
-    priority: document.getElementById('fPriority').value,
-    column: document.getElementById('fColSel').value,
-    tags: [...activeTags],
-    metrics: {
-      views:  parseInt(document.getElementById('mViews').value)||0,
-      likes:  parseInt(document.getElementById('mLikes').value)||0,
-      shares: parseInt(document.getElementById('mShares').value)||0,
-      notes:  document.getElementById('mNotes').value.trim(),
-    }
-  };
-  if (id) {
-    const i = cards.findIndex(c => c.id === id);
-    if (i !== -1) cards[i] = { ...cards[i], ...data };
-  } else {
-    cards.push({ id: uid(), ...data });
-  }
+  const data = { title, desc: document.getElementById('fDesc').value.trim(), priority: document.getElementById('fPriority').value, column: document.getElementById('fColSel').value, tags: [...activeTags], metrics: { views: parseInt(document.getElementById('mViews').value)||0, likes: parseInt(document.getElementById('mLikes').value)||0, shares: parseInt(document.getElementById('mShares').value)||0, notes: document.getElementById('mNotes').value.trim() } };
+  if (id) { const i = cards.findIndex(c => c.id === id); if (i !== -1) cards[i] = { ...cards[i], ...data }; }
+  else cards.push({ id: uid(), ...data });
   save(); renderBoard(); closeModal();
 }
 
-function delCard(id, e) {
-  e && e.stopPropagation();
-  cards = cards.filter(c => c.id !== id);
-  save(); renderBoard();
-}
+function delCard(id, e) { e && e.stopPropagation(); cards = cards.filter(c => c.id !== id); save(); renderBoard(); }
 
-// ── TAGS ──────────────────────────────────
 function renderTags() {
   const box = document.getElementById('tagsBox');
   const inp = document.getElementById('tagIn');
   box.innerHTML = '';
-  activeTags.forEach(t => {
-    const pill = document.createElement('span');
-    pill.className = 'tag-pill';
-    pill.innerHTML = `${esc(t)} <span class="tag-x" onclick="removeTag('${esc(t)}')">×</span>`;
-    box.appendChild(pill);
-  });
+  activeTags.forEach(t => { const pill = document.createElement('span'); pill.className = 'tag-pill'; pill.innerHTML = `${esc(t)} <span class="tag-x" onclick="removeTag('${esc(t)}')">×</span>`; box.appendChild(pill); });
   box.appendChild(inp);
 }
-
-function renderHints() {
-  const el = document.getElementById('tagHints');
-  el.innerHTML = HINTS.map(h =>
-    `<button class="tag-hint" onclick="addTag('${esc(h)}')">${esc(h)}</button>`
-  ).join('');
-}
-
-function addTag(t) {
-  if (t && !activeTags.includes(t)) { activeTags.push(t); renderTags(); }
-}
-
-function removeTag(t) {
-  activeTags = activeTags.filter(x => x !== t);
-  renderTags();
-}
+function renderHints() { document.getElementById('tagHints').innerHTML = HINTS.map(h => `<button class="tag-hint" onclick="addTag('${esc(h)}')">${esc(h)}</button>`).join(''); }
+function addTag(t) { if (t && !activeTags.includes(t)) { activeTags.push(t); renderTags(); } }
+function removeTag(t) { activeTags = activeTags.filter(x => x !== t); renderTags(); }
 
 document.getElementById('tagIn').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' || e.key === ',') {
-    e.preventDefault();
-    const v = this.value.replace(/,/g,'').trim();
-    if (v && !activeTags.includes(v)) activeTags.push(v);
-    this.value = ''; renderTags();
-  }
-  if (e.key === 'Backspace' && !this.value && activeTags.length) {
-    activeTags.pop(); renderTags();
-  }
+  if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); const v = this.value.replace(/,/g,'').trim(); if (v && !activeTags.includes(v)) activeTags.push(v); this.value = ''; renderTags(); }
+  if (e.key === 'Backspace' && !this.value && activeTags.length) { activeTags.pop(); renderTags(); }
 });
+document.getElementById('overlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-document.getElementById('overlay').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
-});
-
-// ── MOUSE EFFECTS ─────────────────────────
-const spotlight = document.getElementById('spotlight');
-
-document.addEventListener('mousemove', function(e) {
-  spotlight.style.setProperty('--mx', e.clientX + 'px');
-  spotlight.style.setProperty('--my', e.clientY + 'px');
-});
-
-// Card tilt + glare via event delegation on board
-const board = document.getElementById('board');
-
-board.addEventListener('mousemove', function(e) {
-  const card = e.target.closest('.card');
-  if (!card || card.classList.contains('dragging')) return;
-
-  const rect = card.getBoundingClientRect();
-  const rx = (e.clientX - rect.left) / rect.width;
-  const ry = (e.clientY - rect.top)  / rect.height;
-
-  // Update glare origin
-  card.style.setProperty('--cx', (rx * 100).toFixed(1) + '%');
-  card.style.setProperty('--cy', (ry * 100).toFixed(1) + '%');
-
-  // Subtle 3D tilt — max ±6deg
-  const tiltX = ((ry - 0.5) * -7).toFixed(2);
-  const tiltY = ((rx - 0.5) *  7).toFixed(2);
-  card.style.transform = `translateY(-2px) perspective(700px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-});
-
-board.addEventListener('mouseout', function(e) {
-  const card = e.target.closest('.card');
-  if (!card) return;
-  if (!card.contains(e.relatedTarget)) {
-    card.style.transform = '';
-  }
-});
-
-// ── INIT ──────────────────────────────────
 load();
 renderBoard();
 </script>
